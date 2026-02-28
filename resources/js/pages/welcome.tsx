@@ -139,8 +139,8 @@ export default function Welcome({ canRegister = true }: { canRegister?: boolean 
             </Head>
 
             <div
-                className="flex min-h-screen flex-col bg-linear-to-b from-gray-50 via-white to-gray-50 text-gray-900 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 dark:text-gray-100"
-                style={{ fontFamily: "'Quicksand', system-ui, sans-serif" }}
+                className="flex h-screen flex-col overflow-y-auto bg-linear-to-b from-gray-50 via-white to-gray-50 text-gray-900 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 dark:text-gray-100"
+                style={{ fontFamily: "'Quicksand', system-ui, sans-serif", scrollbarWidth: 'none', msOverflowStyle: 'none' } as React.CSSProperties}
             >
                 {/* Nav */}
                 <nav className="sticky top-0 z-50 border-b border-gray-200/60 bg-white/80 backdrop-blur-lg dark:border-gray-800/60 dark:bg-gray-950/80">
@@ -216,10 +216,10 @@ export default function Welcome({ canRegister = true }: { canRegister?: boolean 
                                     </h1>
 
                                     <p className="mt-5 max-w-lg text-base leading-relaxed text-gray-600 lg:text-lg dark:text-gray-400">
-                                        Platform layanan surat keterangan elektronik yang mempermudah proses pengajuan dan penerbitan surat secara digital. Cukup beberapa langkah mudah.
+                                        Ajukan surat keterangan secara online, tanpa antre. Proses cepat dan dokumen siap diunduh kapan saja.
                                     </p>
 
-                                    <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:gap-4">
+                                    <div className="mt-8 flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:gap-6">
                                         {auth.user ? (
                                             <Link
                                                 href={dashboard()}
@@ -237,19 +237,28 @@ export default function Welcome({ canRegister = true }: { canRegister?: boolean 
                                                     Daftar Sekarang
                                                     <IconArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
                                                 </Link>
-                                                <Link
-                                                    href={login()}
-                                                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-300 bg-white px-7 py-3.5 text-base font-bold text-gray-700 shadow-sm transition-all hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-emerald-500/40 dark:hover:bg-emerald-500/10 dark:hover:text-emerald-400"
-                                                >
-                                                    Masuk
-                                                </Link>
+
+                                                {/* Social proof — avatar group */}
+                                                <div className="flex items-center gap-3">
+                                                    <div className="flex -space-x-2.5">
+                                                        <div className="flex size-9 items-center justify-center rounded-full border-2 border-white bg-emerald-500 text-[10px] font-bold text-white dark:border-gray-900">AS</div>
+                                                        <div className="flex size-9 items-center justify-center rounded-full border-2 border-white bg-blue-500 text-[10px] font-bold text-white dark:border-gray-900">RK</div>
+                                                        <div className="flex size-9 items-center justify-center rounded-full border-2 border-white bg-violet-500 text-[10px] font-bold text-white dark:border-gray-900">DN</div>
+                                                        <div className="flex size-9 items-center justify-center rounded-full border-2 border-white bg-amber-500 text-[10px] font-bold text-white dark:border-gray-900">MF</div>
+                                                        <div className="flex size-9 items-center justify-center rounded-full border-2 border-white bg-gray-200 text-[10px] font-bold text-gray-600 dark:border-gray-900 dark:bg-gray-700 dark:text-gray-300">+</div>
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-sm font-bold text-gray-900 dark:text-white">200+</p>
+                                                        <p className="text-[11px] font-medium text-gray-500 dark:text-gray-400">pengguna bergabung</p>
+                                                    </div>
+                                                </div>
                                             </>
                                         )}
                                     </div>
                                 </div>
 
                                 {/* Right — Mock Document Card */}
-                                <div className="relative order-1 flex items-center justify-center lg:order-2">
+                                <div className="relative order-1 flex items-center justify-end lg:order-2">
                                     <div className="absolute h-72 w-72 rounded-full bg-linear-to-br from-emerald-200/60 to-teal-200/50 blur-3xl dark:from-emerald-800/20 dark:to-teal-800/15" />
 
                                     <div className="relative w-full max-w-sm">
@@ -364,22 +373,7 @@ export default function Welcome({ canRegister = true }: { canRegister?: boolean 
                     </div>
                 </main>
 
-                {/* Footer */}
-                <footer className="border-t border-gray-200/60 dark:border-gray-800/60">
-                    <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-5">
-                        <p className="text-xs font-medium text-gray-500 dark:text-gray-500">
-                            &copy; {new Date().getFullYear()} Sureka. All rights reserved.
-                        </p>
-                        <div className="flex gap-4 text-xs font-medium text-gray-500 dark:text-gray-500">
-                            <a href="#" className="transition-colors hover:text-emerald-600 dark:hover:text-emerald-400">
-                                Privasi
-                            </a>
-                            <a href="#" className="transition-colors hover:text-emerald-600 dark:hover:text-emerald-400">
-                                Ketentuan
-                            </a>
-                        </div>
-                    </div>
-                </footer>
+
             </div>
         </>
     );
