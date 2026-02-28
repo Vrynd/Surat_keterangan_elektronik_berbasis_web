@@ -361,12 +361,14 @@ export default function Welcome({ canRegister = true }: { canRegister?: boolean 
                                     <p className="mt-0.5 text-xs font-semibold text-gray-500 dark:text-gray-400">QR Terverifikasi</p>
                                 </GlowCard>
 
-                                <GlowCard glowColor="rgba(16, 185, 129, 0.15)">
-                                    <div className="flex size-10 items-center justify-center rounded-xl bg-emerald-50 dark:bg-emerald-500/10">
-                                        <IconDownload className="size-5 text-emerald-500 dark:text-emerald-400" />
+                                <GlowCard glowColor="rgba(244, 63, 94, 0.15)">
+                                    <div className="flex size-10 items-center justify-center rounded-xl bg-rose-50 dark:bg-rose-500/10">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-5 text-rose-500 dark:text-rose-400">
+                                            <path fillRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clipRule="evenodd" />
+                                        </svg>
                                     </div>
-                                    <p className="mt-3 text-2xl font-extrabold text-emerald-600 dark:text-emerald-400">&lt;5 Min</p>
-                                    <p className="mt-0.5 text-xs font-semibold text-gray-500 dark:text-gray-400">Rata-rata Proses</p>
+                                    <p className="mt-3 text-2xl font-extrabold text-gray-900 dark:text-white">4.9/5</p>
+                                    <p className="mt-0.5 text-xs font-semibold text-gray-500 dark:text-gray-400">Rating Kepuasan</p>
                                 </GlowCard>
                             </div>
                         </div>
