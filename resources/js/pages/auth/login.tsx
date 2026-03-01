@@ -34,6 +34,26 @@ function IconGoogle(props: React.SVGAttributes<SVGElement>) {
    );
 }
 
+function IconEye(props: React.SVGAttributes<SVGElement>) {
+   return (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+         <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
+         <circle cx="12" cy="12" r="3" />
+      </svg>
+   );
+}
+
+function IconEyeOff(props: React.SVGAttributes<SVGElement>) {
+   return (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+         <path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49" />
+         <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242" />
+         <path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143" />
+         <path d="m2 2 20 20" />
+      </svg>
+   );
+}
+
 type Props = {
    status?: string;
    canResetPassword: boolean;
@@ -46,6 +66,7 @@ export default function Login({
    canRegister,
 }: Props) {
    const [rememberMe, setRememberMe] = useState(false);
+   const [showPassword, setShowPassword] = useState(false);
 
    return (
       <AuthLayout
@@ -109,15 +130,30 @@ export default function Login({
                               </TextLink>
                            )}
                         </div>
-                        <Input
-                           id="password"
-                           type="password"
-                           name="password"
-                           required
-                           tabIndex={2}
-                           autoComplete="current-password"
-                           placeholder="Kata sandi"
-                        />
+                        <div className="relative">
+                           <Input
+                              id="password"
+                              type={showPassword ? 'text' : 'password'}
+                              name="password"
+                              required
+                              tabIndex={2}
+                              autoComplete="current-password"
+                              placeholder="Kata sandi"
+                              className="pr-10"
+                           />
+                           <button
+                              type="button"
+                              tabIndex={-1}
+                              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
+                              onClick={() => setShowPassword(!showPassword)}
+                           >
+                              {showPassword ? (
+                                 <IconEyeOff className="size-4 shrink-0" />
+                              ) : (
+                                 <IconEye className="size-4 shrink-0" />
+                              )}
+                           </button>
+                        </div>
                         <InputError message={errors.password} />
                      </div>
 
