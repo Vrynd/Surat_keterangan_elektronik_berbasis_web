@@ -1,5 +1,5 @@
 import { Link, usePage } from '@inertiajs/react';
-import { Activity, ClipboardList, FileText, Menu, Star } from 'lucide-react';
+import { Activity, ClipboardList, FileText, LayoutGrid, Menu, Star } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import AppLogoIcon from '@/components/app-logo-icon';
 import { Breadcrumbs } from '@/components/breadcrumbs';
@@ -30,9 +30,9 @@ type Props = {
 
 const mainNavItems: NavItem[] = [
    {
-      title: 'Layanan Surat',
+      title: 'Dashboard',
       href: dashboard(),
-      icon: ClipboardList,
+      icon: LayoutGrid,
    },
    {
       title: 'Status',
