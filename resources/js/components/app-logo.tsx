@@ -1,16 +1,16 @@
 import AppLogoIcon from '@/components/app-logo-icon';
 
 export default function AppLogo() {
-    return (
-        <>
-            <div className="flex aspect-square size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
-                <AppLogoIcon className="size-5 fill-current text-white dark:text-black" />
-            </div>
-            <div className="ml-1 grid flex-1 text-left text-sm">
-                <span className="mb-0.5 truncate leading-tight font-semibold">
-                    Laravel Starter Kit
-                </span>
-            </div>
-        </>
-    );
+   return (
+      <>
+         <div className="flex size-10 items-center justify-center rounded-xl bg-linear-to-br from-emerald-600 to-teal-500 shadow-lg shadow-emerald-500/25 transition-transform group-hover:scale-105">
+            <AppLogoIcon className="size-6 text-white" />
+         </div>
+         <div className="ml-1 grid flex-1 text-left text-sm">
+            <span className="text-2xl font-black tracking-tight text-gray-900 dark:text-white">
+               Sureka<span className="text-emerald-500">.</span>
+            </span>
+         </div>
+      </>
+   );
 }
