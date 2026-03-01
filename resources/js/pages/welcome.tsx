@@ -103,7 +103,8 @@ function GlowCard({
 
    return (
       <div
-         className="group relative overflow-hidden rounded-2xl border border-gray-200/80 bg-white p-5 transition-all duration-300 hover:-translate-y-1 dark:border-gray-700/60 dark:bg-gray-800/80"
+         className="group relative overflow-hidden rounded-2xl border border-gray-200/80 bg-white p-5 transition-all 
+         duration-300 hover:-translate-y-1 dark:border-gray-700/60 dark:bg-gray-800/80"
          onMouseMove={(e) => {
             const rect = e.currentTarget.getBoundingClientRect();
             setPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
@@ -137,7 +138,7 @@ export default function Welcome({ canRegister = true }: { canRegister?: boolean 
          </Head>
 
          <div
-            className="flex h-screen flex-col overflow-y-auto bg-linear-to-b from-gray-50 via-white to-gray-50 text-gray-900 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 dark:text-gray-100"
+            className="flex h-screen flex-col overflow-y-auto bg-linear-to-b from-white via-white to-gray-50 text-gray-900 dark:from-gray-950 dark:via-gray-950 dark:to-gray-900 dark:text-gray-100"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' } as React.CSSProperties}
          >
             <nav className="sticky top-0 z-50 border-b border-gray-200/60 bg-white/80 backdrop-blur-lg dark:border-gray-800/60 dark:bg-gray-950/80">
@@ -164,7 +165,7 @@ export default function Welcome({ canRegister = true }: { canRegister?: boolean 
                            <Link
                               href={login()}
                               className="rounded-lg px-5 py-2.5 text-sm font-bold text-gray-700 transition-colors bg-gray-100 
-                              hover:text-emerald-700 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-emerald-400"
+                              hover:text-emerald-700 dark:text-gray-300 dark:bg-gray-800 dark:hover:text-emerald-400"
                            >
                               Masuk
                            </Link>
@@ -326,7 +327,7 @@ export default function Welcome({ canRegister = true }: { canRegister?: boolean 
                         </div>
                      </div>
 
-                     <div className="mt-14 grid grid-cols-2 gap-4 lg:mt-16 lg:grid-cols-4">
+                     <div className="mt-14 grid grid-cols-2 gap-4 lg:grid-cols-4">
                         <GlowCard glowColor="rgba(245, 158, 11, 0.15)">
                            <div className="flex size-10 items-center justify-center rounded-xl bg-amber-50 dark:bg-amber-500/10">
                               <IconBolt className="size-5 text-amber-500 dark:text-amber-400" />

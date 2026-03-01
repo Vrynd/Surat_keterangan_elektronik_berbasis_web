@@ -93,13 +93,13 @@ export default function AuthSplitLayout({
 
     return (
         <div className="relative grid h-dvh flex-col items-center justify-center px-8 sm:px-0 lg:max-w-none lg:grid-cols-2 lg:px-0">
-            <div className="relative hidden h-full flex-col justify-between overflow-hidden bg-linear-to-br from-emerald-700 via-emerald-600 to-teal-500 p-10 text-white lg:flex">
+            <div className="relative hidden h-full flex-col justify-between overflow-hidden bg-linear-to-br from-emerald-700 via-emerald-600 to-teal-500 p-10 text-white dark:from-emerald-950 dark:via-gray-900 dark:to-emerald-900 lg:flex">
                 <div className="pointer-events-none absolute inset-0">
                     {/* Gradient blurs */}
-                    <div className="absolute -top-24 -left-24 h-[450px] w-[450px] rounded-full bg-cyan-400/20 blur-3xl" />
-                    <div className="absolute -right-20 -bottom-10 h-[400px] w-[400px] rounded-full bg-teal-300/15 blur-3xl" />
-                    <div className="absolute top-1/4 right-10 h-[250px] w-[250px] rounded-full bg-white/8 blur-3xl" />
-                    <div className="absolute bottom-1/3 left-1/4 h-[200px] w-[200px] rounded-full bg-emerald-200/10 blur-2xl" />
+                    <div className="absolute -top-24 -left-24 h-[450px] w-[450px] rounded-full bg-white/15 blur-3xl dark:bg-emerald-500/10" />
+                    <div className="absolute -right-20 -bottom-10 h-[400px] w-[400px] rounded-full bg-white/10 blur-3xl dark:bg-teal-500/8" />
+                    <div className="absolute top-1/4 right-10 h-[250px] w-[250px] rounded-full bg-white/8 blur-3xl dark:bg-emerald-400/5" />
+                    <div className="absolute bottom-1/3 left-1/4 h-[200px] w-[200px] rounded-full bg-white/6 blur-2xl dark:bg-teal-400/5" />
 
                     {/* Dot grid pattern */}
                     <div className="absolute top-8 right-8 grid grid-cols-5 gap-3 opacity-20">
