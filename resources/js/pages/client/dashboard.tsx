@@ -1,6 +1,5 @@
 import { usePage } from '@inertiajs/react';
 import { Search, FileQuestion } from 'lucide-react';
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import { Input } from '@/components/ui/input';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { SubHeader } from '@/components/app-sub-header';

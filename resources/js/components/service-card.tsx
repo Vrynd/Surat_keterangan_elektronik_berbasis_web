@@ -138,8 +138,8 @@ export function ServiceCard({ id, name, description, processingTime, category, p
                   <span className="text-xs font-medium truncate">{processingTime}</span>
                </div>
                <Button className="w-full bg-neutral-950 hover:bg-neutral-800 text-white dark:bg-neutral-100 dark:hover:bg-neutral-200 dark:text-neutral-950 font-bold group h-10 px-0">
-                  <span className="text-xs">Buat Pengajuan</span>
-                  <ChevronRight className="ml-1 size-3 transition-transform group-hover:translate-x-0.5" />
+                  <span className="text-sm">Buat Pengajuan</span>
+                  <ChevronRight className="ml-1 size-4 transition-transform group-hover:translate-x-0.5" />
                </Button>
             </div>
          </CardFooter>

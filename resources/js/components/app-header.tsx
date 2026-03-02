@@ -1,4 +1,5 @@
 import { Link, usePage } from '@inertiajs/react';
+import { useState, useEffect } from 'react';
 import { Activity, ClipboardList, FileText, LayoutGrid, Menu, Star } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import AppLogoIcon from '@/components/app-logo-icon';
@@ -22,6 +23,7 @@ import { useCurrentUrl } from '@/hooks/use-current-url';
 import { useInitials } from '@/hooks/use-initials';
 import { cn } from '@/lib/utils';
 import { dashboard } from '@/routes';
+import { ScrollProgress } from '@/components/scroll-progress';
 import type { BreadcrumbItem, NavItem } from '@/types';
 
 type Props = {
@@ -56,9 +58,23 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
    const { auth } = page.props;
    const getInitials = useInitials();
    const { isCurrentUrl } = useCurrentUrl();
+   const [scrolled, setScrolled] = useState(false);
+
+   useEffect(() => {
+      const handleScroll = () => {
+         setScrolled(window.scrollY > 0);
+      };
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
+   }, []);
+
    return (
       <>
-         <div className="border-b border-sidebar-border/80 bg-white/80 backdrop-blur-lg dark:bg-gray-950/80">
+         <ScrollProgress />
+         <div className={cn(
+            "border-b border-sidebar-border/80 bg-white/80 backdrop-blur-lg dark:bg-gray-950/80 sticky top-0 z-40 transition-shadow duration-300",
+            scrolled ? "shadow-[0_4px_20px_-10px_rgba(0,0,0,0.1)] dark:shadow-[0_4px_20px_-10px_rgba(0,0,0,0.5)]" : "shadow-none"
+         )}>
             <div className="mx-auto flex h-20 items-center justify-between px-5 md:max-w-7xl">
                {/* Left: Logo */}
                <div className="flex items-center gap-3">
