@@ -42,7 +42,7 @@ export default function FeatureLayout({
                </div>
             </div>
 
-            <div className="min-h-screen rounded-xl border border-gray-100 bg-white p-7 dark:border-gray-800 dark:bg-neutral-900">
+            <div className="min-h-[400px] rounded-xl border border-gray-100 bg-white p-7 dark:border-gray-800 dark:bg-neutral-900">
                {children}
             </div>
          </div>
