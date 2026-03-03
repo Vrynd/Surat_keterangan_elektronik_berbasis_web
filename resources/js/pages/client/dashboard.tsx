@@ -1,11 +1,11 @@
 import { usePage } from '@inertiajs/react';
 import { Search, FileQuestion } from 'lucide-react';
 import { Input } from '@/components/ui/input';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-import { SubHeader } from '@/components/app-sub-header';
+import { CategoryTabs } from '@/components/category-tabs';
+import Heading from '@/components/heading';
 import type { BreadcrumbItem } from '@/types';
 import FeatureLayout from '@/layouts/feature-layout';
-import { ServiceCard } from '@/components/service-card';
+import { CertificateCard } from '@/components/certificate-card';
 import { useState, useMemo } from 'react';
 
 const breadcrumbs: [BreadcrumbItem, ...BreadcrumbItem[]] = [
@@ -21,7 +21,7 @@ interface Service {
    category: 'kependudukan' | 'ekonomi' | 'sosial';
    description: string;
    processingTime: string;
-   previewBody: string[];
+   body: string[];
 }
 
 const services: Service[] = [
@@ -31,7 +31,7 @@ const services: Service[] = [
       category: 'kependudukan',
       description: 'Surat keterangan untuk menyatakan tempat tinggal seseorang di suatu wilayah tertentu.',
       processingTime: '1 Hari Kerja',
-      previewBody: ['Tempat Tinggal', 'Alamat Lengkap', 'Masa Berlaku'],
+      body: ['Tempat Tinggal', 'Alamat Lengkap', 'Masa Berlaku'],
    },
    {
       id: '2',
@@ -39,7 +39,7 @@ const services: Service[] = [
       category: 'ekonomi',
       description: 'Surat bukti kepemilikan atau operasional sebuah usaha di wilayah tertentu.',
       processingTime: '2 Hari Kerja',
-      previewBody: ['Nama Usaha', 'Jenis Usaha', 'Lokasi Usaha'],
+      body: ['Nama Usaha', 'Jenis Usaha', 'Lokasi Usaha'],
    },
    {
       id: '3',
@@ -47,7 +47,7 @@ const services: Service[] = [
       category: 'sosial',
       description: 'Surat untuk mendapatkan keringanan biaya pendidikan, kesehatan, atau bantuan sosial.',
       processingTime: '1 Hari Kerja',
-      previewBody: ['Penghasilan', 'Status Sosial', 'Tanggungan'],
+      body: ['Penghasilan', 'Status Sosial', 'Tanggungan'],
    },
    {
       id: '4',
@@ -55,7 +55,7 @@ const services: Service[] = [
       category: 'kependudukan',
       description: 'Dokumen yang menerangkan ada atau tidak adanya catatan kriminal seseorang.',
       processingTime: '3 Hari Kerja',
-      previewBody: ['Catatan Kriminal', 'Sidik Jari', 'Tindakan Hukum'],
+      body: ['Catatan Kriminal', 'Sidik Jari', 'Tindakan Hukum'],
    },
    {
       id: '5',
@@ -63,7 +63,7 @@ const services: Service[] = [
       category: 'kependudukan',
       description: 'Surat pernyataan resmi dari pihak berwenang mengenai kematian seseorang.',
       processingTime: '1 Hari Kerja',
-      previewBody: ['Penyebab', 'Waktu/Tempat', 'Akta Terkait'],
+      body: ['Penyebab', 'Waktu/Tempat', 'Akta Terkait'],
    },
    {
       id: '6',
@@ -71,7 +71,7 @@ const services: Service[] = [
       category: 'kependudukan',
       description: 'Surat pengantar untuk pengurusan berkas administrasi kepindahan penduduk.',
       processingTime: '2 Hari Kerja',
-      previewBody: ['Alamat Asal', 'Alamat Tujuan', 'Anggota Pindah'],
+      body: ['Alamat Asal', 'Alamat Tujuan', 'Anggota Pindah'],
    },
    {
       id: '7',
@@ -79,7 +79,7 @@ const services: Service[] = [
       category: 'kependudukan',
       description: 'Surat pernyataan resmi mengenai peristiwa kelahiran seorang anak.',
       processingTime: '1 Hari Kerja',
-      previewBody: ['Nama Anak', 'Orang Tua', 'Waktu Lahir'],
+      body: ['Nama Anak', 'Orang Tua', 'Waktu Lahir'],
    },
    {
       id: '8',
@@ -87,7 +87,7 @@ const services: Service[] = [
       category: 'kependudukan',
       description: 'Surat yang menerangkan bahwa seseorang belum pernah melangsungkan pernikahan.',
       processingTime: '1 Hari Kerja',
-      previewBody: ['Status Sipil', 'Keperluan', 'Validasi Lurah'],
+      body: ['Status Sipil', 'Keperluan', 'Validasi Lurah'],
    },
    {
       id: '9',
@@ -95,7 +95,7 @@ const services: Service[] = [
       category: 'ekonomi',
       description: 'Surat yang merincikan besaran pendapatan seseorang untuk keperluan administrasi.',
       processingTime: '1 Hari Kerja',
-      previewBody: ['Besar Gaji', 'Instansi', 'Jabatan'],
+      body: ['Besar Gaji', 'Instansi', 'Jabatan'],
    },
    {
       id: '10',
@@ -103,7 +103,7 @@ const services: Service[] = [
       category: 'ekonomi',
       description: 'Surat keterangan domisili khusus untuk lokasi operasional sebuah badan usaha.',
       processingTime: '2 Hari Kerja',
-      previewBody: ['Nama Perusahaan', 'Alamat Kantor', 'Legalitas'],
+      body: ['Nama Perusahaan', 'Alamat Kantor', 'Legalitas'],
    },
    {
       id: '11',
@@ -111,7 +111,7 @@ const services: Service[] = [
       category: 'ekonomi',
       description: 'Surat yang menetapkan ahli waris yang sah dari seseorang yang telah meninggal dunia.',
       processingTime: '3 Hari Kerja',
-      previewBody: ['Nama Pewaris', 'Daftar Waris', 'Pembagian'],
+      body: ['Nama Pewaris', 'Daftar Waris', 'Pembagian'],
    },
    {
       id: '12',
@@ -119,7 +119,7 @@ const services: Service[] = [
       category: 'sosial',
       description: 'Surat permohonan izin untuk menyelenggarakan acara yang melibatkan banyak orang.',
       processingTime: '2 Hari Kerja',
-      previewBody: ['Nama Acara', 'Lokasi', 'Estimasi Massa'],
+      body: ['Nama Acara', 'Lokasi', 'Estimasi Massa'],
    },
 ];
 
@@ -155,8 +155,8 @@ export default function Dashboard() {
          }
       >
          <div className="space-y-8">
-            {/* Sub Header Section */}
-            <SubHeader
+            {/* Heading Section */}
+            <Heading
                title="Layanan Surat Keterangan"
                description="Pilih dan ajukan surat keterangan Anda dengan mudah dan cepat."
             >
@@ -170,52 +170,26 @@ export default function Dashboard() {
                   />
                </div>
                <div className="flex-none">
-                  <ToggleGroup
-                     type="single"
+                  <CategoryTabs
                      value={selectedCategory}
-                     onValueChange={(value) => value && setSelectedCategory(value)}
-                     className="bg-neutral-100 dark:bg-neutral-900 p-1 border border-input rounded-lg h-11">
-                     <ToggleGroupItem value="all" className="px-5 h-full text-neutral-500 data-[state=on]:bg-neutral-900 data-[state=on]:text-white rounded-lg gap-2">
-                        Semua
-                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-neutral-200 text-neutral-600 data-[state=on]:bg-white/20 data-[state=on]:text-white">
-                           {counts.all}
-                        </span>
-                     </ToggleGroupItem>
-                     <ToggleGroupItem value="kependudukan" className="px-5 h-full text-neutral-500 data-[state=on]:bg-neutral-900 data-[state=on]:text-white rounded-lg gap-2">
-                        Kependudukan
-                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-neutral-200 text-neutral-600 data-[state=on]:bg-white/20 data-[state=on]:text-white">
-                           {counts.kependudukan}
-                        </span>
-                     </ToggleGroupItem>
-                     <ToggleGroupItem value="ekonomi" className="px-5 h-full text-neutral-500 data-[state=on]:bg-neutral-900 data-[state=on]:text-white rounded-lg gap-2">
-                        Ekonomi
-                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-neutral-200 text-neutral-600 data-[state=on]:bg-white/20 data-[state=on]:text-white">
-                           {counts.ekonomi}
-                        </span>
-                     </ToggleGroupItem>
-                     <ToggleGroupItem value="sosial" className="px-5 h-full text-neutral-500 data-[state=on]:bg-neutral-900 data-[state=on]:text-white rounded-lg gap-2">
-                        Sosial
-                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-neutral-200 text-neutral-600 data-[state=on]:bg-white/20 data-[state=on]:text-white">
-                           {counts.sosial}
-                        </span>
-                     </ToggleGroupItem>
-                  </ToggleGroup>
+                     onValueChange={setSelectedCategory}
+                     counts={counts}
+                  />
                </div>
-            </SubHeader>
+            </Heading>
 
             {/* Grid Content */}
             <div className="flex flex-col gap-4">
                {filteredServices.length > 0 ? (
                   <div className="grid auto-rows-min gap-6 md:grid-cols-3">
                      {filteredServices.map((service) => (
-                        <ServiceCard
+                        <CertificateCard
                            key={service.id}
                            id={service.id}
                            name={service.name}
                            description={service.description}
-                           processingTime={service.processingTime}
                            category={service.category}
-                           previewBody={service.previewBody}
+                           previewDocument={service.body}
                         />
                      ))}
                   </div>

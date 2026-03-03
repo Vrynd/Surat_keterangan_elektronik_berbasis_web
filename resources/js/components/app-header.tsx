@@ -23,7 +23,7 @@ import { useCurrentUrl } from '@/hooks/use-current-url';
 import { useInitials } from '@/hooks/use-initials';
 import { cn } from '@/lib/utils';
 import { dashboard } from '@/routes';
-import { ScrollProgress } from '@/components/scroll-progress';
+import { ScrollerBar } from '@/components/scroller-bar';
 import type { BreadcrumbItem, NavItem } from '@/types';
 
 type Props = {
@@ -70,7 +70,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
 
    return (
       <>
-         <ScrollProgress />
+         <ScrollerBar />
          <div className={cn(
             "border-b border-sidebar-border/80 bg-white/80 backdrop-blur-lg dark:bg-gray-950/80 sticky top-0 z-40 transition-shadow duration-300",
             scrolled ? "shadow-[0_4px_20px_-10px_rgba(0,0,0,0.1)] dark:shadow-[0_4px_20px_-10px_rgba(0,0,0,0.5)]" : "shadow-none"

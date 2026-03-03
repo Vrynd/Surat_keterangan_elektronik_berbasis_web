@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 
-interface ScrollProgressProps {
+interface ScrollerBarProps {
    className?: string;
 }
 
-export function ScrollProgress({ className }: ScrollProgressProps) {
+export function ScrollerBar({ className }: ScrollerBarProps) {
    const [progress, setProgress] = useState(0);
 
    useEffect(() => {
