@@ -12,3 +12,11 @@ export type AuthLayoutProps = {
     title?: string;
     description?: string;
 };
+
+export type FeatureLayoutProps = {
+    children: ReactNode;
+    header?: ReactNode;
+    description?: ReactNode;
+    title: string;
+    breadcrumbs?: BreadcrumbItem[];
+};

@@ -1,5 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { DocumentVisual, CategoryDocument } from "@/components/ui/document-visual";
+import { Link } from "@inertiajs/react";
+import { slugify } from "@/lib/utils";
 
 interface CertificateCardProps {
    id: string;
@@ -31,22 +33,24 @@ const HighlightText = ({ text, highlight }: { text: string; highlight?: string }
 
 export function CertificateCard({ id, name, description, category, previewDocument = [], searchQuery = '' }: CertificateCardProps) {
    return (
-      <Card className="p-5 cursor-pointer flex flex-col h-full gap-4 border-neutral-200 dark:border-neutral-800 shadow-none transition-none group overflow-hidden">
-         <CardHeader className="p-0 space-y-0">
-            <CardTitle className="text-base font-bold text-neutral-900 dark:text-white line-clamp-1">
-               <HighlightText text={name} highlight={searchQuery} />
-            </CardTitle>
-         </CardHeader>
-         <DocumentVisual
-            id={id}
-            item={category}
-            mockup={previewDocument}
-         />
-         <CardContent className="p-0 flex-1">
-            <CardDescription className="text-neutral-500 dark:text-neutral-400 line-clamp-2 leading-relaxed">
-               <HighlightText text={description} highlight={searchQuery} />
-            </CardDescription>
-         </CardContent>
-      </Card>
+      <Link href={`/submission-letter?type=${slugify(name)}`}>
+         <Card className="group p-5 cursor-pointer flex flex-col h-full gap-4 border-neutral-200 dark:border-neutral-800 shadow-none overflow-hidden">
+            <CardHeader className="p-0 space-y-0">
+               <CardTitle className="text-base font-bold text-neutral-900 dark:text-white line-clamp-1 group-hover:text-emerald-500 transition-colors duration-300">
+                  <HighlightText text={name} highlight={searchQuery} />
+               </CardTitle>
+            </CardHeader>
+            <DocumentVisual
+               id={id}
+               item={category}
+               mockup={previewDocument}
+            />
+            <CardContent className="p-0 flex-1">
+               <CardDescription className="text-neutral-500 dark:text-neutral-400 line-clamp-2 leading-relaxed">
+                  <HighlightText text={description} highlight={searchQuery} />
+               </CardDescription>
+            </CardContent>
+         </Card>
+      </Link>
    );
 }
