@@ -113,6 +113,7 @@ export default function Login({
                            tabIndex={1}
                            autoComplete="email"
                            placeholder="email@example.com"
+                           className="h-11"
                         />
                         <InputError message={errors.email} />
                      </div>
@@ -139,7 +140,7 @@ export default function Login({
                               tabIndex={2}
                               autoComplete="current-password"
                               placeholder="Kata sandi"
-                              className="pr-10"
+                              className="pr-10 h-11"
                            />
                            <button
                               type="button"

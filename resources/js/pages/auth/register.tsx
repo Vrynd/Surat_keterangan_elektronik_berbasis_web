@@ -88,6 +88,7 @@ export default function Register() {
                                     autoComplete="name"
                                     name="name"
                                     placeholder="Nama lengkap"
+                                    className="h-11"
                                 />
                                 <InputError message={errors.name} />
                             </div>
@@ -102,6 +103,7 @@ export default function Register() {
                                     autoComplete="email"
                                     name="email"
                                     placeholder="email@example.com"
+                                    className="h-11"
                                 />
                                 <InputError message={errors.email} />
                             </div>
@@ -117,7 +119,7 @@ export default function Register() {
                                         autoComplete="new-password"
                                         name="password"
                                         placeholder="Kata sandi"
-                                        className="pr-10"
+                                        className="pr-10 h-11"
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                     />
@@ -171,7 +173,7 @@ export default function Register() {
                                         autoComplete="new-password"
                                         name="password_confirmation"
                                         placeholder="Konfirmasi kata sandi"
-                                        className="pr-10"
+                                        className="pr-10 h-11"
                                     />
                                     <button
                                         type="button"

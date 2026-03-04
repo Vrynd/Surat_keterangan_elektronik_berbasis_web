@@ -1,14 +1,31 @@
 import FeatureLayout from '@/layouts/feature-layout';
 import Heading from '@/components/heading';
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import type { BreadcrumbItem } from '@/types';
 import { usePage } from '@inertiajs/react';
 import { unslugify } from '@/lib/utils';
+import { FormDomisili, type DomisiliFormData } from '@/components/forms/form-domisili';
+import LetterInfo from '@/components/letter-info';
+import FormPlaceholder from '@/components/form-placeholder';
+
+// Data info per jenis surat
+const letterInfoMap: Record<string, { description: string; processingTime: string }> = {
+   'Surat Keterangan Domisili': {
+      description:
+         'Surat keterangan untuk menyatakan tempat tinggal seseorang di suatu wilayah tertentu. Surat ini berlaku selama 6 bulan sejak tanggal diterbitkan.',
+      processingTime: '1 Hari Kerja',
+   },
+};
+
+// Daftar jenis surat yang sudah punya form
+const availableForms = ['Surat Keterangan Domisili'];
 
 export default function SubmissionLetter() {
    const { url } = usePage();
    const params = new URLSearchParams(url.split('?')[1] || '');
    const letterType = unslugify(params.get('type') || 'Pengajuan Surat');
+
+   const isFormAvailable = availableForms.includes(letterType);
+   const letterInfo = letterInfoMap[letterType];
 
    const breadcrumbs: BreadcrumbItem[] = [
       {
@@ -21,6 +38,11 @@ export default function SubmissionLetter() {
       },
    ];
 
+   const handleSubmit = (data: DomisiliFormData) => {
+      console.log('Submit:', data);
+      // TODO: kirim data ke backend via Inertia
+   };
+
    return (
       <FeatureLayout
          title={letterType}
@@ -29,36 +51,34 @@ export default function SubmissionLetter() {
             <h1 className="text-3xl font-bold tracking-tight text-neutral-800 dark:text-neutral-100">
                {letterType}
             </h1>
-         }
-
-      >
+         }>
          <div className="space-y-8">
             <Heading
-               title="Formulir Pengajuan"
-               description="Isi formulir di bawah ini dengan informasi yang benar dan valid."
+               title={isFormAvailable ? 'Formulir Pengajuan' : letterType}
+               description={
+                  isFormAvailable
+                     ? 'Isi formulir di bawah ini dengan informasi yang benar dan valid.'
+                     : 'Formulir untuk jenis surat ini belum tersedia.'
+               }
             />
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-               <div className="lg:col-span-7">
-                  <div className="relative h-[600px] overflow-hidden rounded-xl border border-dashed border-neutral-300 dark:border-neutral-700 bg-neutral-50/50 dark:bg-neutral-900/50">
-                     <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/10 dark:stroke-neutral-100/10" />
-                     <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="text-sm font-medium text-neutral-400">Area Formulir</span>
+            {isFormAvailable ? (
+               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                  <div className="lg:col-span-8">
+                     <div className="rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 px-6 py-5">
+                        <FormDomisili onSubmit={handleSubmit} />
+                     </div>
+                  </div>
+                  <div className="lg:col-span-4">
+                     <div className="sticky top-6">
+                        {letterInfo && <LetterInfo {...letterInfo} />}
                      </div>
                   </div>
                </div>
-
-               <div className="lg:col-span-5">
-                  <div className="relative h-[600px] overflow-hidden rounded-xl border border-dashed border-neutral-300 dark:border-neutral-700 bg-neutral-50/50 dark:bg-neutral-900/50">
-                     <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/10 dark:stroke-neutral-100/10" />
-                     <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="text-sm font-medium text-neutral-400">Area Pratinjau</span>
-                     </div>
-                  </div>
-               </div>
-            </div>
+            ) : (
+               <FormPlaceholder letterType={letterType} />
+            )}
          </div>
       </FeatureLayout>
    );
 }
-

@@ -106,7 +106,8 @@ export default function ResetPassword({ token, email }: Props) {
                            type={showConfirmPassword ? 'text' : 'password'}
                            name="password_confirmation"
                            autoComplete="new-password"
-                           className="mt-1 block w-full pr-10"
+                           className="mt-1 block w-full pr-10 h-11"
+                           autoFocus
                            placeholder="Konfirmasi kata sandi"
                         />
                         <button
