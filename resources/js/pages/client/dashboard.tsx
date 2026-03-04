@@ -1,7 +1,9 @@
+declare const route: any;
 import FeatureLayout from '@/layouts/feature-layout';
 import { router, usePage } from '@inertiajs/react';
-import { Search, X, FileText } from 'lucide-react';
+import { Search, X, FileText, Plus } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import Heading from '@/components/heading';
 import { CategoryTabs } from '@/components/category-tabs';
 import { CertificateCard } from '@/components/certificate-card';
@@ -127,6 +129,7 @@ const services: Service[] = [
 export default function Dashboard() {
    // 
    const { auth } = usePage().props;
+   const userRole = auth.user.role;
 
    // 
    const urlParams = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '');
@@ -182,8 +185,24 @@ export default function Dashboard() {
          }>
          <div className="space-y-8">
             <Heading
-               title="Layanan Surat Keterangan"
-               description="Pilih dan ajukan surat keterangan Anda dengan mudah dan cepat.">
+               title="Daftar Surat Keterangan"
+               description={
+                  userRole === 'admin'
+                     ? "Kelola daftar surat keterangan yang tersedia untuk masyarakat."
+                     : "Pilih dan ajukan surat keterangan Anda dengan mudah dan cepat."
+               }
+               action={
+                  userRole === 'admin' && (
+                     <Button
+                        variant="emerald"
+                        size="sm"
+                        className='cursor-pointer'
+                        onClick={() => router.get('/admin/add-letter')}>
+                        <Plus className="size-5" />
+                        Buat Surat Baru
+                     </Button>
+                  )
+               }>
                <div className="flex-1 relative w-full group/search">
                   <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-500 group-focus-within/search:text-emerald-500 transition-colors" />
                   <Input
@@ -225,6 +244,7 @@ export default function Dashboard() {
                      {filteredServices.map((service) => (
                         <CertificateCard
                            key={service.id}
+                           userRole={userRole}
                            id={service.id}
                            name={service.name}
                            description={service.description}

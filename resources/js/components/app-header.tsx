@@ -1,6 +1,6 @@
 import { Link, usePage } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
-import { Activity, ClipboardList, FileText, LayoutGrid, Menu, Star } from 'lucide-react';
+import { Activity, BarChart3, CheckCircle, ClipboardList, FileText, LayoutGrid, Menu, Star, Users } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import AppLogoIcon from '@/components/app-logo-icon';
 import { Breadcrumbs } from '@/components/breadcrumbs';
@@ -30,32 +30,65 @@ type Props = {
    breadcrumbs?: BreadcrumbItem[];
 };
 
-const mainNavItems: NavItem[] = [
-   {
-      title: 'Dashboard',
-      href: dashboard(),
-      icon: LayoutGrid,
-   },
-   {
-      title: 'Status',
-      href: '#',
-      icon: Activity,
-   },
-   {
-      title: 'Surat Saya',
-      href: '#',
-      icon: FileText,
-   },
-   {
-      title: 'Ulasan',
-      href: '#',
-      icon: Star,
-   },
-];
-
 export function AppHeader({ breadcrumbs = [] }: Props) {
    const page = usePage();
    const { auth } = page.props;
+   const user = auth.user;
+   const userRole = user.role;
+
+   const navItems: NavItem[] = userRole === 'admin' ? [
+      {
+         title: 'Dashboard',
+         href: dashboard(),
+         icon: LayoutGrid,
+      },
+      {
+         title: 'Verifikasi',
+         href: '#',
+         icon: CheckCircle,
+      },
+      {
+         title: 'Statistik',
+         href: '#',
+         icon: BarChart3,
+      },
+      {
+         title: 'Laporan',
+         href: '#',
+         icon: ClipboardList,
+      },
+      {
+         title: 'Kelola User',
+         href: '#',
+         icon: Users,
+      },
+      {
+         title: 'Ulasan',
+         href: '#',
+         icon: Star,
+      },
+   ] : [
+      {
+         title: 'Dashboard',
+         href: dashboard(),
+         icon: LayoutGrid,
+      },
+      {
+         title: 'Status',
+         href: '#',
+         icon: Activity,
+      },
+      {
+         title: 'Surat Saya',
+         href: '#',
+         icon: FileText,
+      },
+      {
+         title: 'Ulasan',
+         href: '#',
+         icon: Star,
+      },
+   ];
    const getInitials = useInitials();
    const { isCurrentUrl } = useCurrentUrl();
    const [scrolled, setScrolled] = useState(false);
@@ -103,7 +136,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                            <div className="flex h-full flex-1 flex-col space-y-4 p-4">
                               <div className="flex h-full flex-col justify-between text-sm">
                                  <div className="flex flex-col space-y-4">
-                                    {mainNavItems.map((item) => (
+                                    {navItems.map((item) => (
                                        <Link
                                           key={item.title}
                                           href={item.href}
@@ -138,7 +171,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
 
                <div className="hidden h-full items-center lg:flex">
                   <div className="flex overflow-hidden rounded-lg border border-gray-200 bg-white divide-x divide-gray-200 dark:border-gray-800 dark:bg-neutral-900 dark:divide-gray-800">
-                     {mainNavItems.map((item, index) => {
+                     {navItems.map((item, index) => {
                         const active = isCurrentUrl(item.href);
                         return (
                            <Link
