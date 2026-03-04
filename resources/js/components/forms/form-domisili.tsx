@@ -104,7 +104,7 @@ export function FormDomisili({ onChange, onSubmit }: FormDomisiliProps) {
                   id="namaLengkap"
                   autoComplete='on'
                   required
-                  autoFocus
+                  
                   placeholder="Masukkan nama sesuai KTP"
                   className='w-full h-11'
                   value={formData.namaLengkap}
@@ -127,7 +127,7 @@ export function FormDomisili({ onChange, onSubmit }: FormDomisiliProps) {
                      value={formData.nik}
                      onChange={(e) => inputDigit('nik', e.target.value, 16)}
                      inputMode="numeric"
-                     autoFocus
+                     
                      required
                      className="w-full h-11 pr-16"
                      maxLength={16}
@@ -152,7 +152,7 @@ export function FormDomisili({ onChange, onSubmit }: FormDomisiliProps) {
                   id="tempatLahir"
                   placeholder="Kota / Kabupaten"
                   value={formData.tempatLahir}
-                  autoFocus
+                  
                   required
                   autoComplete='on'
                   className='w-full h-11'
@@ -171,7 +171,7 @@ export function FormDomisili({ onChange, onSubmit }: FormDomisiliProps) {
                   id="tanggalLahir"
                   type="date"
                   value={formData.tanggalLahir}
-                  autoFocus
+                  
                   required
                   className='w-full h-11'
                   onChange={(e) => updateField('tanggalLahir', e.target.value)}
@@ -214,7 +214,7 @@ export function FormDomisili({ onChange, onSubmit }: FormDomisiliProps) {
                   id="pekerjaan"
                   placeholder="Masukkan pekerjaan saat ini"
                   value={formData.pekerjaan}
-                  autoFocus
+                  
                   required
                   autoComplete='on'
                   className='w-full h-11'
@@ -238,7 +238,7 @@ export function FormDomisili({ onChange, onSubmit }: FormDomisiliProps) {
                   id="rt"
                   placeholder="001"
                   value={formData.rt}
-                  autoFocus
+                  
                   required
                   className='h-11'
                   onChange={(e) => inputDigit('rt', e.target.value, 3)}
@@ -260,7 +260,7 @@ export function FormDomisili({ onChange, onSubmit }: FormDomisiliProps) {
                   value={formData.rw}
                   onChange={(e) => inputDigit('rw', e.target.value, 3)}
                   inputMode="numeric"
-                  autoFocus
+                  
                   required
                   className='h-11'
                   maxLength={3}
@@ -280,7 +280,7 @@ export function FormDomisili({ onChange, onSubmit }: FormDomisiliProps) {
                id="alamatLengkap"
                placeholder="Masukkan alamat tempat tinggal saat ini"
                value={formData.alamat}
-               autoFocus
+               
                required
                rows={2}
                autoComplete='on'
@@ -303,7 +303,7 @@ export function FormDomisili({ onChange, onSubmit }: FormDomisiliProps) {
                value={formData.keperluan}
                onChange={(e) => updateField('keperluan', e.target.value)}
                rows={2}
-               autoFocus
+               
                required
                aria-invalid={!!errors.keperluan}
             />
