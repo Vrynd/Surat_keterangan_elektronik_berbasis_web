@@ -21,6 +21,12 @@ const CategoryDocument = {
       bg: 'bg-blue-50/50 dark:bg-blue-950/20',
       border: 'border-blue-200/50 dark:border-blue-800/50',
       icon: BadgeCheck
+   },
+   '': {
+      color: 'text-neutral-500 dark:text-neutral-400',
+      bg: 'bg-neutral-50/50 dark:bg-neutral-900/20',
+      border: 'border-neutral-200 dark:border-neutral-800',
+      icon: Fingerprint // Keep generic icon or use another one
    }
 } as const;
 

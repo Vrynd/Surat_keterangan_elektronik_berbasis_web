@@ -3,6 +3,7 @@ import {
     requiredSelect,
     exactLength,
     minLength,
+    range,
     type ValidationSchema,
 } from '@/lib/validation';
 import type { DomisiliFormData } from './form-domisili';
@@ -39,5 +40,8 @@ export const letterTypeSchema: ValidationSchema<LetterTypeFormData> = {
         (v) => required(v, 'Deskripsi layanan'),
         (v) => minLength(v, 10, 'Deskripsi layanan'),
     ],
-    processing_time: [(v) => required(v, 'Estimasi waktu proses')],
+    processing_time: [
+        (v) => required(v, 'Estimasi waktu proses'),
+        (v) => range(v, 1, 31, 'Estimasi waktu proses'),
+    ],
 };

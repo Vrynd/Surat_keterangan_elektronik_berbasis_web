@@ -65,11 +65,16 @@ export function LetterTypeForm({ data, setData, errors, onNameChange, onCategory
                <div className="relative">
                   <Input
                      id="processing_time"
-                     type="number"
-                     min="1"
+                     type="text"
+                     inputMode="numeric"
                      value={data.processing_time.replace(' Hari Kerja', '')}
                      required
-                     onChange={(e) => setData('processing_time', e.target.value ? `${e.target.value} Hari Kerja` : '')}
+                     onChange={(e) => {
+                        const val = e.target.value.replace(/\D/g, '');
+                        // Limit to 31 as requested
+                        if (val && parseInt(val) > 31) return;
+                        setData('processing_time', val ? `${val} Hari Kerja` : '');
+                     }}
                      placeholder="1"
                      className={cn("pr-24 h-11", errors.processing_time ? 'border-red-500' : '')}
                   />

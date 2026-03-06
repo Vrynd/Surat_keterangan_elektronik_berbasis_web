@@ -15,7 +15,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
-   Route::inertia('admin/add-letter', 'admin/add-letter')->name('admin.add.letter');
+   Route::get('admin/add-letter', [LetterTypeController::class, 'create'])->name('admin.add.letter');
    Route::get('admin/edit-letter', [LetterTypeController::class, 'edit'])->name('admin.edit.letter');
 
    Route::post('admin/letter-types', [LetterTypeController::class, 'store'])->name('admin.letter-types.store');

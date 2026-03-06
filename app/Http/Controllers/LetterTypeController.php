@@ -21,6 +21,18 @@ class LetterTypeController extends Controller
    }
 
    /**
+    * Show the form for creating a new resource.
+    */
+   public function create()
+   {
+      $lastLetter = LetterType::latest()->first();
+
+      return Inertia::render('admin/add-letter', [
+         'lastAddedDate' => $lastLetter ? $lastLetter->created_at : null
+      ]);
+   }
+
+   /**
     * Show the form for editing the specified resource.
     */
    public function edit()

@@ -57,7 +57,6 @@ export default function LetterInfo({
    if (variant === 'admin' && data) {
       return (
          <div className={cn("space-y-6 lg:sticky lg:top-24 text-left", className)}>
-            {/* Live Preview */}
             <div className="space-y-3">
                <div className="flex items-center gap-2 px-1">
                   <div className="size-1.5 rounded-full bg-amber-500" />
@@ -73,7 +72,6 @@ export default function LetterInfo({
                </div>
             </div>
 
-            {/* Stats (Optional) */}
             {showStats && (
                <div className="space-y-3">
                   <div className="flex items-center gap-2 px-1">
@@ -81,18 +79,18 @@ export default function LetterInfo({
                      <h3 className="text-xs font-bold uppercase tracking-widest text-neutral-400">Statistik</h3>
                   </div>
                   <Card className="bg-neutral-900 text-white border-neutral-800 overflow-hidden shadow-none">
-                     <CardContent className="p-4 space-y-4">
+                     <CardContent className="px-5 space-y-4">
                         <div className="flex items-center gap-3">
                            <BarChart3 className="size-4 text-blue-400" />
                            <h3 className="font-bold text-xs uppercase tracking-wider">Performa</h3>
                         </div>
                         <div className="grid grid-cols-2 gap-2">
                            <div className="p-2 rounded-lg bg-white/5 border border-white/5 flex flex-col items-center">
-                              <p className="text-[8px] text-neutral-500 uppercase font-black">Total</p>
+                              <p className="text-xs text-neutral-500 uppercase font-black">Total</p>
                               <p className="text-sm font-black text-emerald-400">124</p>
                            </div>
                            <div className="p-2 rounded-lg bg-white/5 border border-white/5 flex flex-col items-center">
-                              <p className="text-[8px] text-neutral-500 uppercase font-black">Proses</p>
+                              <p className="text-xs text-neutral-500 uppercase font-black">Proses</p>
                               <p className="text-sm font-black text-blue-400">1.2d</p>
                            </div>
                         </div>
@@ -101,7 +99,6 @@ export default function LetterInfo({
                </div>
             )}
 
-            {/* Classification */}
             <div className="space-y-3">
                <div className="flex items-center gap-2 px-1">
                   <div className="size-1.5 rounded-full bg-emerald-500" />

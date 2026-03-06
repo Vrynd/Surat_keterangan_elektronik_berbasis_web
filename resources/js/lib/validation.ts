@@ -27,6 +27,20 @@ export function minLength(
         : null;
 }
 
+export function range(
+    value: string | number,
+    min: number,
+    max: number,
+    label: string,
+): ValidationResult {
+    const num =
+        typeof value === 'string' ? parseInt(value.replace(/\D/g, '')) : value;
+    if (isNaN(num as number)) return `${label} harus berupa angka`;
+    if ((num as number) < min || (num as number) > max)
+        return `${label} harus antara ${min} - ${max}`;
+    return null;
+}
+
 export function digitOnly(value: string): string {
     return value.replace(/\D/g, '');
 }
