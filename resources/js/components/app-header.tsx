@@ -22,7 +22,7 @@ import { UserMenuContent } from '@/components/user-menu-content';
 import { useCurrentUrl } from '@/hooks/use-current-url';
 import { useInitials } from '@/hooks/use-initials';
 import { cn } from '@/lib/utils';
-import { dashboard } from '@/routes';
+import { dashboard, myLetters, reviews } from '@/routes';
 import { ScrollerBar } from '@/components/scroller-bar';
 import type { BreadcrumbItem, NavItem } from '@/types';
 
@@ -70,12 +70,12 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
       },
       {
          title: 'Surat Saya',
-         href: '#',
+         href: myLetters().url,
          icon: FileText,
       },
       {
          title: 'Ulasan',
-         href: '#',
+         href: reviews().url,
          icon: Star,
       },
    ];

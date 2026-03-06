@@ -20,6 +20,8 @@ Route::get('dashboard', function () {
 Route::middleware(['auth', 'verified', 'role:user'])->prefix('client')->group(function () {
    Route::get('dashboard', [LetterTypeController::class, 'index'])->name('dashboard');
    Route::inertia('submission-letter', 'client/submission-letter')->name('submission.letter');
+   Route::inertia('my-letters', 'client/my-letter')->name('my-letters');
+   Route::inertia('reviews', 'client/review')->name('reviews');
 });
 
 Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(function () {
