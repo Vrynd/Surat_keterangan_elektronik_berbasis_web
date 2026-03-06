@@ -1,15 +1,15 @@
-declare const route: any;
-import FeatureLayout from '@/layouts/feature-layout';
-import { router, usePage } from '@inertiajs/react';
-import { Search, X, FileText, Plus } from 'lucide-react';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import Heading from '@/components/heading';
 import { CategoryTabs } from '@/components/category-tabs';
 import { CertificateCard } from '@/components/certificate-card';
-import { useState, useMemo, useEffect } from 'react';
+import { EmptyState } from '@/components/empty-state';
+import Heading from '@/components/heading';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import FeatureLayout from '@/layouts/feature-layout';
 import { cn } from '@/lib/utils';
 import type { BreadcrumbItem } from '@/types';
+import { router, usePage } from '@inertiajs/react';
+import { Plus, Search, X, Layers } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
 
 const breadcrumbs: [BreadcrumbItem, ...BreadcrumbItem[]] = [
    {
@@ -141,7 +141,18 @@ export default function Dashboard({ services }: { services: Service[] }) {
             </Heading>
 
             <div className="flex flex-col gap-4">
-               {filteredServices.length > 0 ? (
+               {services.length === 0 ? (
+                  <EmptyState
+                     variant="base"
+                     icon={Layers}
+                     title="Belum Ada Layanan Surat"
+                     description={
+                        userRole === 'admin'
+                           ? "Sistem belum memiliki daftar jenis surat. Mulai dengan membuat layanan surat pertama Anda."
+                           : "Mohon maaf, saat ini belum ada layanan surat yang tersedia untuk diajukan."
+                     }
+                  />
+               ) : filteredServices.length > 0 ? (
                   <div className="grid auto-rows-min gap-6 md:grid-cols-3">
                      {filteredServices.map((service) => (
                         <CertificateCard
@@ -157,20 +168,10 @@ export default function Dashboard({ services }: { services: Service[] }) {
                      ))}
                   </div>
                ) : (
-                  <div className="flex flex-col items-center justify-center py-20 bg-neutral-50 dark:bg-neutral-900/50 rounded-2xl border-2 border-dashed border-neutral-200 dark:border-neutral-800">
-                     <div className="relative mb-6">
-                        <div className="size-16 rounded-full bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center border border-neutral-200/50 dark:border-neutral-700/50">
-                           <FileText className="size-8 text-neutral-400" />
-                        </div>
-                        <div className="absolute -bottom-1 -right-1 size-8 rounded-full bg-white dark:bg-neutral-800 flex items-center justify-center shadow-sm border border-neutral-100 dark:border-neutral-700">
-                           <Search className="size-4 text-emerald-500" strokeWidth={2.5} />
-                        </div>
-                     </div>
-                     <h3 className="text-lg font-bold text-neutral-900 dark:text-white">Hasil tidak ditemukan</h3>
-                     <p className="text-md text-neutral-500 max-w-lg text-center mt-2 leading-relaxed">
-                        Maaf, kami tidak menemukan layanan untuk <span className="text-neutral-900 dark:text-neutral-200 font-medium">"{searchQuery}"</span>. Coba sesuaikan kata kunci atau kategori.
-                     </p>
-                  </div>
+                  <EmptyState
+                     variant="search"
+                     searchQuery={searchQuery}
+                  />
                )}
             </div>
          </div>

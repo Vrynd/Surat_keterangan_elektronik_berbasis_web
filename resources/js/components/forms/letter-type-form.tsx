@@ -82,7 +82,7 @@ export function LetterTypeForm({ data, setData, errors, onNameChange, onCategory
          </div>
 
          <div className="flex flex-col gap-2 items-stretch">
-            <Label htmlFor="description">Deskripsi Layanan <span className="text-red-500">*</span></Label>
+            <Label htmlFor="description">Deskripsi <span className="text-red-500">*</span></Label>
             <Textarea
                id="description"
                value={data.description}

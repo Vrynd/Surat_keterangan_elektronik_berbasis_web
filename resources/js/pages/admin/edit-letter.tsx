@@ -3,7 +3,6 @@ import LetterInfo from '@/components/letter-info';
 import { LetterTypeForm } from '@/components/forms/letter-type-form';
 import { letterTypeSchema } from '@/components/forms/validation.schema';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import FeatureLayout from '@/layouts/feature-layout';
 import { isFormValid } from '@/lib/validation';
 import type { BreadcrumbItem } from '@/types';
@@ -182,18 +181,16 @@ export default function EditLetter() {
             />
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-               <div className="lg:col-span-8 space-y-6">
-                  <Card className="border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 px-6 py-5">
-                     <form id="edit-letter-form" onSubmit={submit} className="space-y-6">
-                        <LetterTypeForm
-                           data={data}
-                           setData={setData}
-                           errors={errors}
-                           onNameChange={changeName}
-                           onCategoryChange={changeCategory}
-                        />
-                     </form>
-                  </Card>
+               <div className="lg:col-span-8">
+                  <form id="edit-letter-form" onSubmit={submit} className="space-y-6">
+                     <LetterTypeForm
+                        data={data}
+                        setData={setData}
+                        errors={errors}
+                        onNameChange={changeName}
+                        onCategoryChange={changeCategory}
+                     />
+                  </form>
                </div>
 
                <div className="lg:col-span-4">
