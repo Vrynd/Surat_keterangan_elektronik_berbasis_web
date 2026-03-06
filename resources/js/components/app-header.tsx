@@ -53,11 +53,6 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
          icon: BarChart3,
       },
       {
-         title: 'Laporan',
-         href: '#',
-         icon: ClipboardList,
-      },
-      {
          title: 'Kelola User',
          href: '#',
          icon: Users,
@@ -72,11 +67,6 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
          title: 'Dashboard',
          href: dashboard(),
          icon: LayoutGrid,
-      },
-      {
-         title: 'Status',
-         href: '#',
-         icon: Activity,
       },
       {
          title: 'Surat Saya',

@@ -19,114 +19,16 @@ const breadcrumbs: [BreadcrumbItem, ...BreadcrumbItem[]] = [
 ];
 
 interface Service {
-   id: string;
+   id: number;
+   code: string;
    name: string;
    category: 'kependudukan' | 'ekonomi' | 'sosial';
    description: string;
-   processingTime: string;
-   body: string[];
+   processing_time: string;
+   body?: string[];
 }
 
-const services: Service[] = [
-   {
-      id: '1',
-      name: 'Surat Keterangan Domisili',
-      category: 'kependudukan',
-      description: 'Surat keterangan untuk menyatakan tempat tinggal seseorang di suatu wilayah tertentu.',
-      processingTime: '1 Hari Kerja',
-      body: ['Tempat Tinggal', 'Alamat Lengkap', 'Masa Berlaku'],
-   },
-   {
-      id: '2',
-      name: 'Surat Keterangan Usaha',
-      category: 'ekonomi',
-      description: 'Surat bukti kepemilikan atau operasional sebuah usaha di wilayah tertentu.',
-      processingTime: '2 Hari Kerja',
-      body: ['Nama Usaha', 'Jenis Usaha', 'Lokasi Usaha'],
-   },
-   {
-      id: '3',
-      name: 'Surat Keterangan Tidak Mampu',
-      category: 'sosial',
-      description: 'Surat untuk mendapatkan keringanan biaya pendidikan, kesehatan, atau bantuan sosial.',
-      processingTime: '1 Hari Kerja',
-      body: ['Penghasilan', 'Status Sosial', 'Tanggungan'],
-   },
-   {
-      id: '4',
-      name: 'Surat Keterangan Catatan Kepolisian',
-      category: 'kependudukan',
-      description: 'Dokumen yang menerangkan ada atau tidak adanya catatan kriminal seseorang.',
-      processingTime: '3 Hari Kerja',
-      body: ['Catatan Kriminal', 'Sidik Jari', 'Tindakan Hukum'],
-   },
-   {
-      id: '5',
-      name: 'Surat Keterangan Kematian',
-      category: 'kependudukan',
-      description: 'Surat pernyataan resmi dari pihak berwenang mengenai kematian seseorang.',
-      processingTime: '1 Hari Kerja',
-      body: ['Penyebab', 'Waktu/Tempat', 'Akta Terkait'],
-   },
-   {
-      id: '6',
-      name: 'Surat Keterangan Pindah',
-      category: 'kependudukan',
-      description: 'Surat pengantar untuk pengurusan berkas administrasi kepindahan penduduk.',
-      processingTime: '2 Hari Kerja',
-      body: ['Alamat Asal', 'Alamat Tujuan', 'Anggota Pindah'],
-   },
-   {
-      id: '7',
-      name: 'Surat Keterangan Kelahiran',
-      category: 'kependudukan',
-      description: 'Surat pernyataan resmi mengenai peristiwa kelahiran seorang anak.',
-      processingTime: '1 Hari Kerja',
-      body: ['Nama Anak', 'Orang Tua', 'Waktu Lahir'],
-   },
-   {
-      id: '8',
-      name: 'Surat Keterangan Belum Menikah',
-      category: 'kependudukan',
-      description: 'Surat yang menerangkan bahwa seseorang belum pernah melangsungkan pernikahan.',
-      processingTime: '1 Hari Kerja',
-      body: ['Status Sipil', 'Keperluan', 'Validasi Lurah'],
-   },
-   {
-      id: '9',
-      name: 'Surat Keterangan Penghasilan',
-      category: 'ekonomi',
-      description: 'Surat yang merincikan besaran pendapatan seseorang untuk keperluan administrasi.',
-      processingTime: '1 Hari Kerja',
-      body: ['Besar Gaji', 'Instansi', 'Jabatan'],
-   },
-   {
-      id: '10',
-      name: 'Surat Keterangan Domisili Usaha',
-      category: 'ekonomi',
-      description: 'Surat keterangan domisili khusus untuk lokasi operasional sebuah badan usaha.',
-      processingTime: '2 Hari Kerja',
-      body: ['Nama Perusahaan', 'Alamat Kantor', 'Legalitas'],
-   },
-   {
-      id: '11',
-      name: 'Surat Keterangan Ahli Waris',
-      category: 'ekonomi',
-      description: 'Surat yang menetapkan ahli waris yang sah dari seseorang yang telah meninggal dunia.',
-      processingTime: '3 Hari Kerja',
-      body: ['Nama Pewaris', 'Daftar Waris', 'Pembagian'],
-   },
-   {
-      id: '12',
-      name: 'Surat Keterangan Izin Keramaian',
-      category: 'sosial',
-      description: 'Surat permohonan izin untuk menyelenggarakan acara yang melibatkan banyak orang.',
-      processingTime: '2 Hari Kerja',
-      body: ['Nama Acara', 'Lokasi', 'Estimasi Massa'],
-   },
-];
-
-export default function Dashboard() {
+export default function Dashboard({ services }: { services: Service[] }) {
    // 
    const { auth } = usePage().props;
    const userRole = auth.user.role;
@@ -245,11 +147,11 @@ export default function Dashboard() {
                         <CertificateCard
                            key={service.id}
                            userRole={userRole}
-                           id={service.id}
+                           id={service.id.toString()}
                            name={service.name}
                            description={service.description}
                            category={service.category}
-                           previewDocument={service.body}
+                           previewDocument={service.body || []}
                            searchQuery={searchQuery}
                         />
                      ))}

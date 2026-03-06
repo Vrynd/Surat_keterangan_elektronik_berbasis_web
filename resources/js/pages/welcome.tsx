@@ -155,7 +155,7 @@ export default function Welcome({ canRegister = true }: { canRegister?: boolean 
                   <div className="flex items-center gap-3">
                      {auth.user ? (
                         <Link
-                           href={dashboard()}
+                           href={dashboard().url}
                            className="rounded-lg bg-linear-to-r from-emerald-600 to-teal-500 px-5 py-2 text-sm font-bold text-white transition-all hover:brightness-110 dark:from-emerald-700 dark:to-teal-600"
                         >
                            Dashboard
@@ -163,7 +163,7 @@ export default function Welcome({ canRegister = true }: { canRegister?: boolean 
                      ) : (
                         <>
                            <Link
-                              href={login()}
+                              href={login().url}
                               className="rounded-lg px-5 py-2.5 text-sm font-bold text-gray-700 transition-colors bg-gray-100 
                               hover:text-emerald-700 dark:text-gray-300 dark:bg-gray-800 dark:hover:text-emerald-400"
                            >
@@ -171,7 +171,7 @@ export default function Welcome({ canRegister = true }: { canRegister?: boolean 
                            </Link>
                            {canRegister && (
                               <Link
-                                 href={register()}
+                                 href={register().url}
                                  className="rounded-lg bg-linear-to-r from-emerald-600 to-teal-500 px-5 py-2.5 text-sm font-bold text-white transition-all 
                                  hover:brightness-110 dark:from-emerald-700 dark:to-teal-600"
                               >
@@ -218,7 +218,7 @@ export default function Welcome({ canRegister = true }: { canRegister?: boolean 
                            <div className="mt-8 flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:gap-6">
                               {auth.user ? (
                                  <Link
-                                    href={dashboard()}
+                                    href={dashboard().url}
                                     className="group inline-flex items-center justify-center gap-2 rounded-xl bg-linear-to-r from-emerald-600 to-teal-500 px-7 py-3.5 text-base font-bold text-white shadow-lg shadow-emerald-500/25 transition-all hover:shadow-xl hover:shadow-emerald-500/30 hover:brightness-110"
                                  >
                                     Masuk ke Dashboard
@@ -227,7 +227,7 @@ export default function Welcome({ canRegister = true }: { canRegister?: boolean 
                               ) : (
                                  <>
                                     <Link
-                                       href={register()}
+                                       href={register().url}
                                        className="group inline-flex items-center justify-center gap-2 rounded-xl bg-linear-to-r from-emerald-600 to-teal-500 px-7 py-3.5 
                                        text-base font-bold text-white shadow-lg shadow-emerald-500/25 transition-all hover:shadow-xl hover:shadow-emerald-500/30 hover:brightness-110">
                                        Daftar Sekarang

@@ -1,7 +1,15 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { DocumentVisual, CategoryDocument } from "@/components/ui/document-visual";
-import { Link } from "@inertiajs/react";
-import { slugify } from "@/lib/utils";
+import { Link, router } from "@inertiajs/react";
+import { slugify, cn } from "@/lib/utils";
+import { Edit2, Trash2, MoreVertical } from "lucide-react";
+import {
+   DropdownMenu,
+   DropdownMenuContent,
+   DropdownMenuItem,
+   DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
 
 interface CertificateCardProps {
    userRole?: string;
@@ -35,12 +43,56 @@ const HighlightText = ({ text, highlight }: { text: string; highlight?: string }
 export function CertificateCard({ userRole, id, name, description, category, previewDocument = [], searchQuery = '' }: CertificateCardProps) {
    const isAdmin = userRole === 'admin';
 
+   const isNamePlaceholder = !name;
+   const isDescriptionPlaceholder = !description;
+
+   const displayName = name || "Nama Jenis Surat";
+   const displayDescription = description || "Deskripsi layanan surat.";
+
+   const handleDelete = (e: React.MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (confirm('Apakah Anda yakin ingin menghapus jenis surat ini?')) {
+         router.delete(`/admin/letter-types/${id}`);
+      }
+   };
+
+   const handleEdit = (e: React.MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      router.get(`/admin/edit-letter?id=${id}`);
+   };
+
    const CardInner = (
-      <Card className="group p-5 flex flex-col h-full gap-4 border-neutral-200 dark:border-neutral-800 shadow-none overflow-hidden hover:border-emerald-200 dark:hover:border-emerald-800/50 transition-all duration-300">
-         <CardHeader className="p-0 space-y-0">
-            <CardTitle className="text-base font-bold text-neutral-900 dark:text-white line-clamp-1 group-hover:text-emerald-500 transition-colors duration-300">
-               <HighlightText text={name} highlight={searchQuery} />
+      <Card className="group p-5 flex flex-col h-full gap-4 border-neutral-200 dark:border-neutral-800 shadow-none overflow-hidden hover:border-emerald-200 dark:hover:border-emerald-800/50 transition-all duration-300 relative">
+         <CardHeader className="p-0 space-y-0 pr-8">
+            <CardTitle className={cn(
+               "text-base font-bold line-clamp-1 group-hover:text-emerald-500 transition-colors duration-300",
+               isNamePlaceholder ? "text-neutral-400 font-medium italic dark:text-neutral-500" : "text-neutral-900 dark:text-white"
+            )}>
+               <HighlightText text={displayName} highlight={searchQuery} />
             </CardTitle>
+            {isAdmin && (
+               <div className="absolute right-3 top-3 z-10">
+                  <DropdownMenu>
+                     <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
+                        <Button variant="ghost" size="icon" className="size-8 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-800">
+                           <MoreVertical className="size-4 text-neutral-500" />
+                        </Button>
+                     </DropdownMenuTrigger>
+                     <DropdownMenuContent align="end" className="w-40">
+                        <DropdownMenuItem onClick={handleEdit} className="cursor-pointer">
+                           <Edit2 className="size-4 mr-2" />
+                           Edit
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={handleDelete} className="cursor-pointer text-red-600 focus:text-red-600">
+                           <Trash2 className="size-4 mr-2" />
+                           Hapus
+                        </DropdownMenuItem>
+                     </DropdownMenuContent>
+                  </DropdownMenu>
+               </div>
+            )}
          </CardHeader>
          <DocumentVisual
             id={id}
@@ -48,15 +100,18 @@ export function CertificateCard({ userRole, id, name, description, category, pre
             mockup={previewDocument}
          />
          <CardContent className="p-0 flex-1">
-            <CardDescription className="text-neutral-500 dark:text-neutral-400 line-clamp-2 leading-relaxed">
-               <HighlightText text={description} highlight={searchQuery} />
+            <CardDescription className={cn(
+               "line-clamp-2 leading-relaxed transition-colors",
+               isDescriptionPlaceholder ? "text-neutral-300 dark:text-neutral-700 italic" : "text-neutral-500 dark:text-neutral-400"
+            )}>
+               <HighlightText text={displayDescription} highlight={searchQuery} />
             </CardDescription>
          </CardContent>
       </Card>
    );
 
    const href = isAdmin
-      ? `/admin/edit-letter?type=${slugify(name)}`
+      ? `/admin/edit-letter?id=${id}`
       : `/submission-letter?type=${slugify(name)}`;
 
    return (
