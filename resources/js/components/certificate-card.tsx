@@ -112,7 +112,7 @@ export function CertificateCard({ userRole, id, name, description, category, pre
 
    const href = isAdmin
       ? `/admin/edit-letter?id=${id}`
-      : `/submission-letter?type=${slugify(name)}`;
+      : `/client/submission-letter?type=${slugify(name)}`;
 
    return (
       <Link href={href}>

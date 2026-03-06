@@ -11,10 +11,10 @@ import { router, usePage } from '@inertiajs/react';
 import { Plus, Search, X, Layers } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 
-const breadcrumbs: [BreadcrumbItem, ...BreadcrumbItem[]] = [
+const getBreadcrumbs = (role: string): [BreadcrumbItem, ...BreadcrumbItem[]] => [
    {
       title: 'Dashboard',
-      href: '/dashboard',
+      href: role === 'admin' ? '/admin/dashboard' : '/client/dashboard',
    },
 ];
 
@@ -79,7 +79,7 @@ export default function Dashboard({ services }: { services: Service[] }) {
    return (
       <FeatureLayout
          title="Dashboard"
-         breadcrumbs={breadcrumbs}
+         breadcrumbs={getBreadcrumbs(userRole)}
          header={
             <h1 className="text-3xl font-bold tracking-tight text-neutral-800 dark:text-neutral-100">
                Hi, {auth.user.name.split(' ').slice(0, 2).join(' ')}! 👋
