@@ -1,6 +1,6 @@
 import { Link, usePage } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
-import { Activity, BarChart3, CheckCircle, ClipboardList, FileText, LayoutGrid, Menu, Star, Users } from 'lucide-react';
+import { Activity, BarChart3, CheckCircle, ClipboardList, FileText, LayoutGrid, Menu, Star } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import AppLogoIcon from '@/components/app-logo-icon';
 import { Breadcrumbs } from '@/components/breadcrumbs';
@@ -39,23 +39,18 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
    const navItems: NavItem[] = userRole === 'admin' ? [
       {
          title: 'Dashboard',
-         href: dashboard(),
+         href: '/admin/dashboard',
          icon: LayoutGrid,
       },
       {
-         title: 'Verifikasi',
+         title: 'Pengajuan Surat',
+         href: '#',
+         icon: FileText,
+      },
+      {
+         title: 'Verifikasi Berkas',
          href: '#',
          icon: CheckCircle,
-      },
-      {
-         title: 'Statistik',
-         href: '#',
-         icon: BarChart3,
-      },
-      {
-         title: 'Kelola User',
-         href: '#',
-         icon: Users,
       },
       {
          title: 'Ulasan',
