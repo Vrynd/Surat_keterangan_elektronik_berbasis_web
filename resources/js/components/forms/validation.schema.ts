@@ -27,6 +27,8 @@ export interface LetterTypeFormData {
     category: string;
     description: string;
     processing_time: string;
+    validity_period: string;
+    is_active: boolean;
 }
 
 export const letterTypeSchema: ValidationSchema<LetterTypeFormData> = {
@@ -44,4 +46,9 @@ export const letterTypeSchema: ValidationSchema<LetterTypeFormData> = {
         (v) => required(v, 'Estimasi waktu proses'),
         (v) => range(v, 1, 31, 'Estimasi waktu proses'),
     ],
+    validity_period: [
+        (v) => required(v, 'Masa berlaku'),
+        (v) => range(v, 1, 120, 'Masa berlaku'),
+    ],
+    is_active: [],
 };

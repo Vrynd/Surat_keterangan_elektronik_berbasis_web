@@ -12,5 +12,7 @@ class LetterType extends Model
       'category',
       'description',
       'processing_time',
+      'validity_period',
+      'is_active',
    ];
 }

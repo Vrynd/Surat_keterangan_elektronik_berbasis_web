@@ -11,11 +11,15 @@ Route::inertia('/', 'welcome', [
 ])->name('home');
 
 Route::get('dashboard', function () {
-   if (Auth::user()->role === 'admin') {
+   /** @var \App\Models\User $user */
+   $user = Auth::user();
+
+   if ($user->role === 'admin') {
       return redirect()->route('admin.dashboard');
    }
+
    return redirect()->route('dashboard');
-})->middleware(['auth', 'verified']);
+})->middleware(['auth', 'verified'])->name('dashboard.redirect');
 
 Route::middleware(['auth', 'verified', 'role:user'])->prefix('client')->group(function () {
    Route::get('dashboard', [LetterTypeController::class, 'index'])->name('dashboard');

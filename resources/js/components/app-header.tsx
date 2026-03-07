@@ -1,6 +1,6 @@
 import { Link, usePage } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
-import { Activity, BarChart3, CheckCircle, ClipboardList, FileText, LayoutGrid, Menu, Star, Users } from 'lucide-react';
+import { CheckCircle, ClipboardList, FileText, LayoutGrid, Menu, Star, Users } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import AppLogoIcon from '@/components/app-logo-icon';
 import { Breadcrumbs } from '@/components/breadcrumbs';
@@ -23,6 +23,7 @@ import { useCurrentUrl } from '@/hooks/use-current-url';
 import { useInitials } from '@/hooks/use-initials';
 import { cn } from '@/lib/utils';
 import { dashboard, myLetters, reviews } from '@/routes';
+import { dashboard as adminDashboard } from '@/routes/admin';
 import { ScrollerBar } from '@/components/scroller-bar';
 import type { BreadcrumbItem, NavItem } from '@/types';
 
@@ -36,26 +37,23 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
    const user = auth.user;
    const userRole = user.role;
 
+   const dashboardUrl = userRole === 'admin' ? adminDashboard() : dashboard();
+
    const navItems: NavItem[] = userRole === 'admin' ? [
       {
          title: 'Dashboard',
-         href: dashboard(),
+         href: dashboardUrl,
          icon: LayoutGrid,
       },
       {
-         title: 'Verifikasi',
+         title: 'Pengajuan Surat',
+         href: '#',
+         icon: ClipboardList,
+      },
+      {
+         title: 'Verifikasi Berkas',
          href: '#',
          icon: CheckCircle,
-      },
-      {
-         title: 'Statistik',
-         href: '#',
-         icon: BarChart3,
-      },
-      {
-         title: 'Kelola User',
-         href: '#',
-         icon: Users,
       },
       {
          title: 'Ulasan',
@@ -65,7 +63,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
    ] : [
       {
          title: 'Dashboard',
-         href: dashboard(),
+         href: dashboardUrl,
          icon: LayoutGrid,
       },
       {
@@ -151,7 +149,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                   </div>
 
                   <Link
-                     href={dashboard()}
+                     href={dashboardUrl}
                      prefetch
                      className="flex items-center space-x-2"
                   >

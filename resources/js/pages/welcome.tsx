@@ -155,7 +155,7 @@ export default function Welcome({ canRegister = true }: { canRegister?: boolean 
                   <div className="flex items-center gap-3">
                      {auth.user ? (
                         <Link
-                           href={dashboard().url}
+                           href="/dashboard"
                            className="rounded-lg bg-linear-to-r from-emerald-600 to-teal-500 px-5 py-2 text-sm font-bold text-white transition-all hover:brightness-110 dark:from-emerald-700 dark:to-teal-600"
                         >
                            Dashboard
@@ -218,7 +218,7 @@ export default function Welcome({ canRegister = true }: { canRegister?: boolean 
                            <div className="mt-8 flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:gap-6">
                               {auth.user ? (
                                  <Link
-                                    href={dashboard().url}
+                                    href="/dashboard"
                                     className="group inline-flex items-center justify-center gap-2 rounded-xl bg-linear-to-r from-emerald-600 to-teal-500 px-7 py-3.5 text-base font-bold text-white shadow-lg shadow-emerald-500/25 transition-all hover:shadow-xl hover:shadow-emerald-500/30 hover:brightness-110"
                                  >
                                     Masuk ke Dashboard

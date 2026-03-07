@@ -18,6 +18,8 @@ return new class extends Migration
          $table->enum('category', ['kependudukan', 'ekonomi', 'sosial']);
          $table->text('description');
          $table->string('processing_time');
+         $table->string('validity_period');
+         $table->boolean('is_active')->default(true);
          $table->timestamps();
       });
    }

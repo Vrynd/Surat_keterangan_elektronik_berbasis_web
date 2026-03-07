@@ -24,7 +24,7 @@ export default function FormPlaceholder({ letterType, className }: FormPlacehold
             Formulir pengajuan <span className="font-medium text-neutral-700 dark:text-neutral-300">{letterType}</span> sedang dalam tahap pengembangan dan akan segera tersedia.
          </p>
          <Button variant="outline" size="lg" asChild>
-            <Link href="/dashboard">
+            <Link href="/client/dashboard">
                Kembali ke Dashboard
             </Link>
          </Button>

@@ -1,5 +1,4 @@
 import Heading from '@/components/heading';
-import LetterInfo from '@/components/letter-info';
 import { LetterTypeForm } from '@/components/forms/letter-type-form';
 import { letterTypeSchema } from '@/components/forms/validation.schema';
 import { Button } from '@/components/ui/button';
@@ -7,16 +6,18 @@ import FeatureLayout from '@/layouts/feature-layout';
 import { isFormValid } from '@/lib/validation';
 import type { BreadcrumbItem } from '@/types';
 import { useForm, usePage } from '@inertiajs/react';
-import { Save, X, Trash2 } from 'lucide-react';
+import { Save, X, Trash2, RotateCcw } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { ConfirmModal } from '@/components/confirm-modal';
 import { EmptyState } from '@/components/empty-state';
 import { AlertTriangle, ChevronLeft } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { ActionBar } from '@/components/action-bar';
 
 const breadcrumbs: BreadcrumbItem[] = [
    {
       title: 'Dashboard',
-      href: '/dashboard',
+      href: '/admin/dashboard',
    },
    {
       title: 'Edit Surat',
@@ -31,30 +32,30 @@ interface LetterType {
    category: 'kependudukan' | 'ekonomi' | 'sosial';
    description: string;
    processing_time: string;
+   validity_period: string;
+   is_active: boolean;
 }
 
 export default function EditLetter() {
-   // 
    const { services } = usePage<{ services: LetterType[] }>().props;
 
-   //
    const urlParams = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '');
    const id = parseInt(urlParams.get('id') || '0');
    const letterData = services?.find(s => s.id === id);
 
-   // 
    const { data, setData, put, delete: destroy, processing, errors, reset } = useForm({
       code: letterData?.code || '',
       name: letterData?.name || '',
       category: (letterData?.category || 'kependudukan') as 'kependudukan' | 'ekonomi' | 'sosial',
       description: letterData?.description || '',
       processing_time: letterData?.processing_time || '',
+      validity_period: letterData?.validity_period || '',
+      is_active: letterData?.is_active ?? true,
    });
 
    const [showSaveModal, setShowSaveModal] = useState(false);
    const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-   // 
    useEffect(() => {
       if (letterData) {
          setData({
@@ -63,11 +64,12 @@ export default function EditLetter() {
             category: letterData.category,
             description: letterData.description,
             processing_time: letterData.processing_time,
+            validity_period: letterData.validity_period,
+            is_active: letterData.is_active,
          });
       }
    }, [letterData]);
 
-   // 
    const generateCode = (name: string, category: string) => {
       const classificationMap: Record<string, string> = {
          'kependudukan': '470',
@@ -89,7 +91,6 @@ export default function EditLetter() {
       return `${classification}/${initials}/${year}`;
    };
 
-   // 
    const changeName = (e: React.ChangeEvent<HTMLInputElement>) => {
       const newName = e.target.value;
       const newCode = generateCode(newName, data.category);
@@ -97,7 +98,6 @@ export default function EditLetter() {
       const normalize = (s: string) => s.replace(/\s+/g, '');
       const currentCodeClean = normalize(data.code || '');
 
-      // 
       const possibleGenerated = [
          generateCode(data.name, 'kependudukan'),
          generateCode(data.name, 'ekonomi'),
@@ -120,14 +120,12 @@ export default function EditLetter() {
       }
    };
 
-   // 
    const changeCategory = (val: any) => {
       const newCode = generateCode(data.name, val);
 
       const normalize = (s: string) => s.replace(/\s+/g, '');
       const currentCodeClean = normalize(data.code || '');
 
-      //
       const possibleGenerated = [
          generateCode(data.name, 'kependudukan'),
          generateCode(data.name, 'ekonomi'),
@@ -147,7 +145,6 @@ export default function EditLetter() {
       }
    };
 
-   // 
    const submit = (e?: React.FormEvent) => {
       e?.preventDefault();
       put(`/admin/letter-types/${id}`, {
@@ -183,7 +180,11 @@ export default function EditLetter() {
          </FeatureLayout>
       );
    }
+
    const isFormComplete = isFormValid(data, letterTypeSchema);
+   const totalFields = 7;
+   const filledFields = [data.name, data.code, data.category, data.description, data.processing_time, data.validity_period, data.is_active]
+      .filter(v => v !== null && v !== undefined && String(v).trim() !== '').length;
 
    return (
       <FeatureLayout
@@ -195,73 +196,97 @@ export default function EditLetter() {
                <p className="text-sm text-neutral-500">Terakhir diperbarui {new Date().toLocaleDateString('id-ID')}</p>
             </div>
          }>
-         <div className="space-y-8">
+         <form id="edit-letter-form" onSubmit={submit} className="mx-auto space-y-8">
             <Heading
                title="Perbarui Informasi"
-               description="Perbarui detail surat keterangan di bawah ini"
-               action={
-                  <div className="flex items-center gap-3">
-                     <Button
-                        type="button"
-                        variant="destructive"
-                        size="sm"
-                        className="cursor-pointer"
-                        disabled={processing}
-                        onClick={() => setShowDeleteModal(true)}>
-                        <Trash2 className="size-4" />
-                        Hapus
-                     </Button>
-                     <div className="h-4 w-px bg-neutral-200 mx-1" />
-                     <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        className="cursor-pointer"
-                        disabled={processing}
-                        onClick={() => window.history.back()}>
-                        <X className="size-4" />
-                        Batal
-                     </Button>
-                     <Button
-                        type="button"
-                        variant="emerald"
-                        size="sm"
-                        className="cursor-pointer font-bold"
-                        disabled={processing || !isFormComplete}
-                        onClick={() => setShowSaveModal(true)}>
-                        <Save className="size-4" />
-                        {processing ? 'Menyimpan...' : 'Simpan Perubahan'}
-                     </Button>
+               description="Perbarui detail surat keterangan di bawah ini">
+               <div className="w-full rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 p-4">
+                  <div className="flex items-center justify-between mb-2">
+                     <span className="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">Kelengkapan Formulir</span>
+                     <span className={cn(
+                        "text-xs font-bold px-2 py-0.5 rounded-full",
+                        filledFields === totalFields
+                           ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400"
+                           : "bg-neutral-100 text-neutral-500 dark:bg-neutral-800 dark:text-neutral-400"
+                     )}>
+                        {filledFields}/{totalFields}
+                     </span>
                   </div>
-               }
+                  <div className="flex gap-1">
+                     {Array.from({ length: totalFields }).map((_, i) => (
+                        <div
+                           key={i}
+                           className={cn(
+                              "h-1 flex-1 rounded-full transition-all duration-500",
+                              i < filledFields
+                                 ? "bg-emerald-500 dark:bg-emerald-400"
+                                 : "bg-neutral-200 dark:bg-neutral-800"
+                           )}
+                        />
+                     ))}
+                  </div>
+               </div>
+            </Heading>
+
+            <LetterTypeForm
+               data={data}
+               setData={setData}
+               errors={errors}
+               onNameChange={changeName}
+               onCategoryChange={changeCategory}
             />
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-               <div className="lg:col-span-8">
-                  <form id="edit-letter-form" onSubmit={submit} className="space-y-6">
-                     <LetterTypeForm
-                        data={data}
-                        setData={setData}
-                        errors={errors}
-                        onNameChange={changeName}
-                        onCategoryChange={changeCategory}
-                     />
-                  </form>
-               </div>
+            <ActionBar
+               message={
+                  <div className="flex items-center gap-4">
+                     <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="text-neutral-500 hover:text-neutral-700 cursor-pointer"
+                        disabled={processing}
+                        onClick={() => window.history.back()}
+                     >
+                        <X className="size-4 mr-2" />
+                        Batal
+                     </Button>
+                     <div className="h-4 w-px bg-neutral-200 dark:bg-neutral-800" />
+                     <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20 cursor-pointer"
+                        disabled={processing}
+                        onClick={() => setShowDeleteModal(true)}
+                     >
+                        <Trash2 className="size-4 mr-2" />
+                        Hapus Selamanya
+                     </Button>
+                  </div>
+               }>
+               <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="cursor-pointer"
+                  disabled={processing}
+                  onClick={() => reset()}>
+                  <RotateCcw className="size-4" />
+                  Reset Input
+               </Button>
+               <Button
+                  type="button"
+                  variant="default"
+                  size="sm"
+                  className="cursor-pointer font-bold"
+                  disabled={processing || !isFormComplete}
+                  onClick={() => setShowSaveModal(true)}>
+                  <Save className="size-4 shrink-0" />
+                  {processing ? 'Menyimpan...' : 'Simpan Perubahan'}
+               </Button>
+            </ActionBar>
+         </form>
 
-               <div className="lg:col-span-4">
-                  <LetterInfo
-                     variant="admin"
-                     data={data}
-                     letterId={String(letterData?.id)}
-                     showStats={false}
-                     showDangerZone={false}
-                     onDelete={deleteLetter}
-                     processing={processing}
-                  />
-               </div>
-            </div>
-         </div>
          <ConfirmModal
             isOpen={showSaveModal}
             onClose={() => setShowSaveModal(false)}

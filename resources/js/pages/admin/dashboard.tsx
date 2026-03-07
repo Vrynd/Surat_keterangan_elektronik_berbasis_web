@@ -2,18 +2,19 @@ import { CategoryTabs } from '@/components/category-tabs';
 import { CertificateCard } from '@/components/certificate-card';
 import { EmptyState } from '@/components/empty-state';
 import Heading from '@/components/heading';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import FeatureLayout from '@/layouts/feature-layout';
 import { cn } from '@/lib/utils';
 import type { BreadcrumbItem } from '@/types';
 import { router, usePage } from '@inertiajs/react';
-import { Search, X, Layers } from 'lucide-react';
+import { Plus, Search, X, Layers } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 
 const breadcrumbs: [BreadcrumbItem, ...BreadcrumbItem[]] = [
    {
       title: 'Dashboard',
-      href: '/client/dashboard',
+      href: '/admin/dashboard',
    },
 ];
 
@@ -27,7 +28,7 @@ interface Service {
    body?: string[];
 }
 
-export default function Dashboard({ services }: { services: Service[] }) {
+export default function AdminDashboard({ services }: { services: Service[] }) {
    const { auth } = usePage().props;
 
    const urlParams = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '');
@@ -79,8 +80,18 @@ export default function Dashboard({ services }: { services: Service[] }) {
          }>
          <div className="space-y-8">
             <Heading
-               title="Daftar Surat Keterangan"
-               description="Pilih dan ajukan surat keterangan Anda dengan mudah dan cepat.">
+               title="Kelola Surat Keterangan"
+               description="Kelola daftar surat keterangan yang tersedia untuk masyarakat."
+               action={
+                  <Button
+                     variant="default"
+                     size="sm"
+                     className='cursor-pointer'
+                     onClick={() => router.get('/admin/add-letter')}>
+                     <Plus className="size-5" />
+                     Buat Surat Baru
+                  </Button>
+               }>
                <div className="flex-1 relative w-full group/search">
                   <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-500 group-focus-within/search:text-emerald-500 transition-colors" />
                   <Input
@@ -122,13 +133,14 @@ export default function Dashboard({ services }: { services: Service[] }) {
                      variant="base"
                      icon={Layers}
                      title="Belum Ada Layanan Surat"
-                     description="Mohon maaf, saat ini belum ada layanan surat yang tersedia untuk diajukan."
+                     description="Sistem belum memiliki daftar jenis surat. Mulai dengan membuat layanan surat pertama Anda."
                   />
                ) : filteredServices.length > 0 ? (
                   <div className="grid auto-rows-min gap-6 md:grid-cols-3">
                      {filteredServices.map((service) => (
                         <CertificateCard
                            key={service.id}
+                           userRole="admin"
                            id={service.id.toString()}
                            name={service.name}
                            description={service.description}

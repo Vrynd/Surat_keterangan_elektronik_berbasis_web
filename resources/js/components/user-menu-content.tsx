@@ -1,5 +1,5 @@
-import { Link, router } from '@inertiajs/react';
-import { LogOut, Settings } from 'lucide-react';
+import { Link, router, usePage } from '@inertiajs/react';
+import { LogOut, Settings, Users } from 'lucide-react';
 import {
    DropdownMenuGroup,
    DropdownMenuItem,
@@ -18,6 +18,8 @@ type Props = {
 
 export function UserMenuContent({ user }: Props) {
    const cleanup = useMobileNavigation();
+   const { auth } = usePage().props;
+   const isAdmin = auth.user.role === 'admin';
 
    const handleLogout = () => {
       cleanup();
@@ -44,6 +46,18 @@ export function UserMenuContent({ user }: Props) {
                   Pengaturan
                </Link>
             </DropdownMenuItem>
+            {isAdmin && (
+               <DropdownMenuItem asChild>
+                  <Link
+                     className="flex w-full cursor-pointer items-center gap-2"
+                     href="#"
+                     onClick={cleanup}
+                  >
+                     <Users size={16} />
+                     Kelola User
+                  </Link>
+               </DropdownMenuItem>
+            )}
          </DropdownMenuGroup>
          <DropdownMenuSeparator />
          <DropdownMenuItem asChild>

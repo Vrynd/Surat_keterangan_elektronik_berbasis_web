@@ -14,6 +14,14 @@ class LetterTypeController extends Controller
    public function index()
    {
       $services = LetterType::all();
+      /** @var \App\Models\User $user */
+      $user = \Illuminate\Support\Facades\Auth::user();
+
+      if ($user->role === 'admin') {
+         return Inertia::render('admin/dashboard', [
+            'services' => $services
+         ]);
+      }
 
       return Inertia::render('client/dashboard', [
          'services' => $services
@@ -57,7 +65,7 @@ class LetterTypeController extends Controller
 
       LetterType::create($validated);
 
-      return redirect()->route('dashboard')->with('success', 'Surat keterangan berhasil ditambahkan.');
+      return redirect()->route('admin.dashboard')->with('success', 'Surat keterangan berhasil ditambahkan.');
    }
 
    /**
@@ -75,7 +83,7 @@ class LetterTypeController extends Controller
 
       $letterType->update($validated);
 
-      return redirect()->route('dashboard')->with('success', 'Surat keterangan berhasil diperbarui.');
+      return redirect()->route('admin.dashboard')->with('success', 'Surat keterangan berhasil diperbarui.');
    }
 
    /**
@@ -85,6 +93,6 @@ class LetterTypeController extends Controller
    {
       $letterType->delete();
 
-      return redirect()->route('dashboard')->with('success', 'Surat keterangan berhasil dihapus.');
+      return redirect()->route('admin.dashboard')->with('success', 'Surat keterangan berhasil dihapus.');
    }
 }

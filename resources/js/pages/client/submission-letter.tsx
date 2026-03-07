@@ -38,7 +38,7 @@ export default function SubmissionLetter() {
    const breadcrumbs: BreadcrumbItem[] = [
       {
          title: 'Dashboard',
-         href: '/dashboard',
+         href: '/client/dashboard',
       },
       {
          title: letterType,
