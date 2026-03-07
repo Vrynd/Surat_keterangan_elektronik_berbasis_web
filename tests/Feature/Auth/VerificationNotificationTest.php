@@ -29,6 +29,7 @@ class VerificationNotificationTest extends TestCase
     {
         Notification::fake();
 
+        /** @var User $user */
         $user = User::factory()->create();
 
         $this->actingAs($user)
