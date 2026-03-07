@@ -8,20 +8,26 @@ use Tests\TestCase;
 
 class DashboardTest extends TestCase
 {
-    use RefreshDatabase;
+   use RefreshDatabase;
 
-    public function test_guests_are_redirected_to_the_login_page()
-    {
-        $response = $this->get(route('dashboard'));
-        $response->assertRedirect(route('login'));
-    }
+   public function test_guests_are_redirected_to_the_login_page()
+   {
+      $response = $this->get(route('dashboard'));
+      $response->assertRedirect(route('login'));
+   }
 
-    public function test_authenticated_users_can_visit_the_dashboard()
-    {
-        $user = User::factory()->create();
-        $this->actingAs($user);
+   public function test_authenticated_users_can_visit_the_dashboard()
+   {
+      /** @var User $user */
+      $user = User::factory()->create(['role' => 'user']);
+      $this->actingAs($user);
 
-        $response = $this->get(route('dashboard'));
-        $response->assertOk();
-    }
+      // Accessing /dashboard should redirect to /client/dashboard
+      $response = $this->get('/dashboard');
+      $response->assertRedirect(route('dashboard'));
+
+      // Then accessing /client/dashboard should be OK
+      $response = $this->get(route('dashboard'));
+      $response->assertOk();
+   }
 }

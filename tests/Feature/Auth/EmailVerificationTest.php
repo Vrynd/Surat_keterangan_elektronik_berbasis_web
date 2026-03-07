@@ -15,6 +15,7 @@ class EmailVerificationTest extends TestCase
 
     public function test_email_verification_screen_can_be_rendered()
     {
+        /** @var User $user */
         $user = User::factory()->unverified()->create();
 
         $response = $this->actingAs($user)->get(route('verification.notice'));
@@ -24,6 +25,7 @@ class EmailVerificationTest extends TestCase
 
     public function test_email_can_be_verified()
     {
+        /** @var User $user */
         $user = User::factory()->unverified()->create();
 
         Event::fake();
@@ -38,11 +40,12 @@ class EmailVerificationTest extends TestCase
 
         Event::assertDispatched(Verified::class);
         $this->assertTrue($user->fresh()->hasVerifiedEmail());
-        $response->assertRedirect(route('dashboard', absolute: false).'?verified=1');
+        $response->assertLocation('/dashboard?verified=1');
     }
 
     public function test_email_is_not_verified_with_invalid_hash()
     {
+        /** @var User $user */
         $user = User::factory()->unverified()->create();
 
         Event::fake();
@@ -61,6 +64,7 @@ class EmailVerificationTest extends TestCase
 
     public function test_email_is_not_verified_with_invalid_user_id(): void
     {
+        /** @var User $user */
         $user = User::factory()->unverified()->create();
 
         Event::fake();
@@ -79,6 +83,7 @@ class EmailVerificationTest extends TestCase
 
     public function test_verified_user_is_redirected_to_dashboard_from_verification_prompt(): void
     {
+        /** @var User $user */
         $user = User::factory()->create();
 
         Event::fake();
@@ -86,11 +91,12 @@ class EmailVerificationTest extends TestCase
         $response = $this->actingAs($user)->get(route('verification.notice'));
 
         Event::assertNotDispatched(Verified::class);
-        $response->assertRedirect(route('dashboard', absolute: false));
+        $response->assertLocation('/dashboard');
     }
 
     public function test_already_verified_user_visiting_verification_link_is_redirected_without_firing_event_again(): void
     {
+        /** @var User $user */
         $user = User::factory()->create();
 
         Event::fake();
@@ -102,7 +108,7 @@ class EmailVerificationTest extends TestCase
         );
 
         $this->actingAs($user)->get($verificationUrl)
-            ->assertRedirect(route('dashboard', absolute: false).'?verified=1');
+            ->assertLocation('/dashboard?verified=1');
 
         Event::assertNotDispatched(Verified::class);
         $this->assertTrue($user->fresh()->hasVerifiedEmail());

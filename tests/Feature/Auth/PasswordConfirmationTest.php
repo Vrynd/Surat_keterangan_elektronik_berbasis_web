@@ -13,14 +13,16 @@ class PasswordConfirmationTest extends TestCase
 
     public function test_confirm_password_screen_can_be_rendered()
     {
+        /** @var User $user */
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)->get(route('password.confirm'));
 
         $response->assertOk();
 
-        $response->assertInertia(fn (Assert $page) => $page
-            ->component('auth/confirm-password'),
+        $response->assertInertia(
+            fn(Assert $page) => $page
+                ->component('auth/confirm-password'),
         );
     }
 
