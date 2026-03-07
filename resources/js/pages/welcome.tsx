@@ -156,7 +156,7 @@ export default function Welcome({ canRegister = true }: { canRegister?: boolean 
                      {auth.user ? (
                         <Link
                            href="/dashboard"
-                           className="rounded-lg bg-linear-to-r from-emerald-600 to-teal-500 px-5 py-2 text-sm font-bold text-white transition-all hover:brightness-110 dark:from-emerald-700 dark:to-teal-600"
+                           className="rounded-lg bg-linear-to-r from-emerald-600 to-teal-500 px-5 py-2.5 text-sm font-bold text-white transition-all hover:brightness-110 dark:from-emerald-700 dark:to-teal-600"
                         >
                            Dashboard
                         </Link>

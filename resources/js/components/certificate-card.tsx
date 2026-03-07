@@ -2,7 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { DocumentVisual, CategoryDocument } from "@/components/ui/document-visual";
 import { Link, router } from "@inertiajs/react";
 import { slugify, cn } from "@/lib/utils";
-import { Edit2, Trash2, MoreVertical } from "lucide-react";
+import { FilePlus, MoreVertical } from "lucide-react";
 import {
    DropdownMenu,
    DropdownMenuContent,
@@ -49,18 +49,10 @@ export function CertificateCard({ userRole, id, name, description, category, pre
    const displayName = name || "Nama Jenis Surat";
    const displayDescription = description || "Deskripsi layanan surat.";
 
-   const handleDelete = (e: React.MouseEvent) => {
+   const createForm = (e: React.MouseEvent) => {
       e.preventDefault();
       e.stopPropagation();
-      if (confirm('Apakah Anda yakin ingin menghapus jenis surat ini?')) {
-         router.delete(`/admin/letter-types/${id}`);
-      }
-   };
-
-   const handleEdit = (e: React.MouseEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-      router.get(`/admin/edit-letter?id=${id}`);
+      router.get(`/admin/manage-forms?id=${id}&name=${slugify(name)}`);
    };
 
    const CardInner = (
@@ -80,14 +72,10 @@ export function CertificateCard({ userRole, id, name, description, category, pre
                            <MoreVertical className="size-4 text-neutral-500" />
                         </Button>
                      </DropdownMenuTrigger>
-                     <DropdownMenuContent align="end" className="w-40">
-                        <DropdownMenuItem onClick={handleEdit} className="cursor-pointer">
-                           <Edit2 className="size-4 mr-2" />
-                           Edit
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={handleDelete} className="cursor-pointer text-red-600 focus:text-red-600">
-                           <Trash2 className="size-4 mr-2" />
-                           Hapus
+                     <DropdownMenuContent align="end" className="w-44">
+                        <DropdownMenuItem onClick={createForm} className="cursor-pointer">
+                           <FilePlus className="size-4 mr-2" />
+                           Kelola Formulir
                         </DropdownMenuItem>
                      </DropdownMenuContent>
                   </DropdownMenu>
@@ -111,7 +99,7 @@ export function CertificateCard({ userRole, id, name, description, category, pre
    );
 
    const href = isAdmin
-      ? `/admin/edit-letter?id=${id}`
+      ? `/admin/manage-forms?id=${id}&name=${encodeURIComponent(name)}`
       : `/client/submission-letter?type=${slugify(name)}`;
 
    return (

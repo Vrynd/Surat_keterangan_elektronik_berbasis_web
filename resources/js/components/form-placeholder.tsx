@@ -1,5 +1,5 @@
 import { Construction } from 'lucide-react';
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
@@ -9,6 +9,9 @@ interface FormPlaceholderProps {
 }
 
 export default function FormPlaceholder({ letterType, className }: FormPlaceholderProps) {
+   const { auth } = usePage().props as any;
+   const dashboardLink = auth.user.role === 'admin' ? '/admin/dashboard' : '/client/dashboard';
+
    return (
       <div className={cn(
          "flex flex-col items-center justify-center text-center py-16 px-6 rounded-xl border border-dashed border-neutral-300 dark:border-neutral-700 bg-neutral-50/50 dark:bg-neutral-900/30",
@@ -24,7 +27,7 @@ export default function FormPlaceholder({ letterType, className }: FormPlacehold
             Formulir pengajuan <span className="font-medium text-neutral-700 dark:text-neutral-300">{letterType}</span> sedang dalam tahap pengembangan dan akan segera tersedia.
          </p>
          <Button variant="outline" size="lg" asChild>
-            <Link href="/client/dashboard">
+            <Link href={dashboardLink}>
                Kembali ke Dashboard
             </Link>
          </Button>

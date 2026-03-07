@@ -36,6 +36,8 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(fu
    Route::post('letter-types', [LetterTypeController::class, 'store'])->name('admin.letter-types.store');
    Route::put('letter-types/{letterType}', [LetterTypeController::class, 'update'])->name('admin.letter-types.update');
    Route::delete('letter-types/{letterType}', [LetterTypeController::class, 'destroy'])->name('admin.letter-types.destroy');
+
+   Route::inertia('manage-forms', 'admin/manage-forms')->name('admin.manage.forms');
 });
 
 
