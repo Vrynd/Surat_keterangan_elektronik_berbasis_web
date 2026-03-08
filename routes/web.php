@@ -5,7 +5,8 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Fortify\Features;
 
 use App\Http\Controllers\LetterTypeController;
-use App\Http\Controllers\Admin\FormFieldController;
+use App\Http\Controllers\FormFieldController;
+
 
 Route::inertia('/', 'welcome', [
    'canRegister' => Features::enabled(Features::registration()),
@@ -23,26 +24,33 @@ Route::get('dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard.redirect');
 
 Route::middleware(['auth', 'verified', 'role:user'])->prefix('client')->group(function () {
-   Route::get('dashboard', [LetterTypeController::class, 'index'])->name('dashboard');
-   Route::get('submission-letter', [LetterTypeController::class, 'submissionForm'])->name('submission.letter');
+   Route::controller(LetterTypeController::class)->group(function () {
+      Route::get('dashboard', 'index')->name('dashboard');
+   });
+
+   Route::controller(FormFieldController::class)->group(function () {
+      Route::get('submission-letter', 'create')->name('submission.letter');
+   });
    Route::inertia('my-letters', 'client/my-letter')->name('my-letters');
    Route::inertia('reviews', 'client/review')->name('reviews');
 });
 
 Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(function () {
-   Route::get('dashboard', [LetterTypeController::class, 'index'])->name('admin.dashboard');
-   Route::get('add-letter', [LetterTypeController::class, 'create'])->name('admin.add.letter');
-   Route::get('edit-letter', [LetterTypeController::class, 'edit'])->name('admin.edit.letter');
+   Route::controller(LetterTypeController::class)->group(function () {
+      Route::get('dashboard', 'index')->name('admin.dashboard');
+      Route::get('add-letter', 'create')->name('admin.add.letter');
+      Route::get('edit-letter', 'edit')->name('admin.edit.letter');
+      Route::post('letter-types', 'store')->name('admin.letter-types.store');
+      Route::put('letter-types/{letterType}', 'update')->name('admin.letter-types.update');
+      Route::delete('letter-types/{letterType}', 'destroy')->name('admin.letter-types.destroy');
+   });
 
-   Route::post('letter-types', [LetterTypeController::class, 'store'])->name('admin.letter-types.store');
-   Route::put('letter-types/{letterType}', [LetterTypeController::class, 'update'])->name('admin.letter-types.update');
-   Route::delete('letter-types/{letterType}', [LetterTypeController::class, 'destroy'])->name('admin.letter-types.destroy');
-
-   Route::get('manage-forms', [FormFieldController::class, 'index'])->name('admin.manage.forms');
-   Route::post('manage-forms/{id}/fields', [FormFieldController::class, 'store'])->name('admin.manage.forms.store');
-   Route::put('manage-forms/fields/{formField}', [FormFieldController::class, 'update'])->name('admin.manage.forms.update');
-   Route::delete('manage-forms/fields/{formField}', [FormFieldController::class, 'destroy'])->name('admin.manage.forms.destroy');
+   Route::controller(FormFieldController::class)->group(function () {
+      Route::get('manage-forms', 'index')->name('admin.manage.forms');
+      Route::post('manage-forms/{id}/fields', 'store')->name('admin.manage.forms.store');
+      Route::put('manage-forms/fields/{formField}', 'update')->name('admin.manage.forms.update');
+      Route::delete('manage-forms/fields/{formField}', 'destroy')->name('admin.manage.forms.destroy');
+   });
 });
-
 
 require __DIR__ . '/settings.php';
