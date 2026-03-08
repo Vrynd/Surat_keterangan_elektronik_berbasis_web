@@ -88,7 +88,14 @@ export default function DynamicForm({
 					</Select>
 				);
 			case 'number':
-				return <Input type="number" {...commonProps} />;
+				return (
+					<Input
+						type="text"
+						inputMode="numeric"
+						{...commonProps}
+						onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData(field.name, e.target.value.replace(/\D/g, ''))}
+					/>
+				);
 			case 'date':
 				return <Input type="date" {...commonProps} />;
 			default:

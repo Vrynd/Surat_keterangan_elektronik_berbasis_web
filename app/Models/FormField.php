@@ -23,7 +23,6 @@ class FormField extends Model
 
     protected $casts = [
         'options' => 'array',
-        'validation_rules' => 'array',
         'is_required' => 'boolean',
         'is_full_width' => 'boolean',
     ];

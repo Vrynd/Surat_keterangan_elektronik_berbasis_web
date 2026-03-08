@@ -39,7 +39,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(fu
    Route::delete('letter-types/{letterType}', [LetterTypeController::class, 'destroy'])->name('admin.letter-types.destroy');
 
    Route::get('manage-forms', [FormFieldController::class, 'index'])->name('admin.manage.forms');
-   Route::post('manage-forms/{letterType}/fields', [FormFieldController::class, 'store'])->name('admin.manage.forms.store');
+   Route::post('manage-forms/{id}/fields', [FormFieldController::class, 'store'])->name('admin.manage.forms.store');
    Route::put('manage-forms/fields/{formField}', [FormFieldController::class, 'update'])->name('admin.manage.forms.update');
    Route::delete('manage-forms/fields/{formField}', [FormFieldController::class, 'destroy'])->name('admin.manage.forms.destroy');
 });

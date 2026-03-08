@@ -48,13 +48,13 @@ export default function ManageForms() {
       const newField: FormFieldData = {
          label: '',
          name: '',
-         type: '',
+         type: 'text',
          placeholder: '',
-         data_type: '',
+         data_type: 'string',
          options: null,
-         validation_rules: null,
+         validation_rules: 'required',
          order_position: fields.length,
-         is_required: false,
+         is_required: true,
          is_full_width: false,
       };
       setFields([...fields, newField]);
@@ -95,13 +95,22 @@ export default function ManageForms() {
 
    const saveForm = () => {
       setSaving(true);
-      router.post(route('admin.manage.forms.store', letterType.id), {
+      const url = `/admin/manage-forms/${letterType.id}/fields`;
+
+      router.post(url, {
          fields: fields.map((f, i) => ({ ...f, order_position: i }))
       }, {
          onFinish: () => {
             setSaving(false);
+         },
+         onSuccess: () => {
             setIsEditable(false);
          },
+         onError: (errors) => {
+            setSaving(false);
+            console.error('Save failed:', errors);
+            alert('Konfigurasi ditolak oleh server. Pastikan semua field sudah benar atau hubungi admin.');
+         }
       });
    };
 
