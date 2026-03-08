@@ -2,38 +2,39 @@ import FeatureLayout from '@/layouts/feature-layout';
 import Heading from '@/components/heading';
 import type { BreadcrumbItem } from '@/types';
 import { usePage } from '@inertiajs/react';
-import { unslugify } from '@/lib/utils';
-import { FormDomisili, type DomisiliFormData } from '@/components/forms/form-domisili';
 import LetterInfo from '@/components/letter-info';
+import { ConfirmModal } from '@/components/confirm-modal';
+import { ActionBar } from '@/components/action-bar';
 import FormPlaceholder from '@/components/form-placeholder';
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { RotateCcw, CheckCircle2 } from 'lucide-react';
+import { RotateCcw, CheckCircle2, Loader2, Send, Info } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import DynamicForm from '@/components/forms/dynamic-form';
+import { useForm } from '@inertiajs/react';
 
-// Data info per jenis surat
-const letterInfoMap: Record<string, { description: string; processingTime: string }> = {
-   'Surat Keterangan Domisili': {
-      description:
-         'Surat keterangan untuk menyatakan tempat tinggal seseorang di suatu wilayah tertentu. Surat ini berlaku selama 6 bulan sejak tanggal diterbitkan.',
-      processingTime: '1 Hari Kerja',
-   },
-};
-
-// Daftar jenis surat yang sudah punya form
-const availableForms = ['Surat Keterangan Domisili'];
+interface Props {
+   letterType: any;
+   fields: any[];
+}
 
 export default function SubmissionLetter() {
-   const { url } = usePage();
-   const params = new URLSearchParams(url.split('?')[1] || '');
-   const letterType = unslugify(params.get('type') || 'Pengajuan Surat');
+   const { letterType, fields, url } = usePage<any>().props;
 
    const [formKey, setFormKey] = useState(0);
-   const [isDirty, setIsDirty] = useState(false);
    const [showResetAlert, setShowResetAlert] = useState(false);
+   const [showResetConfirm, setShowResetConfirm] = useState(false);
 
-   const isFormAvailable = availableForms.includes(letterType);
-   const letterInfo = letterInfoMap[letterType];
+   const initialData = (fields || []).reduce((acc: any, field: any) => {
+      acc[field.name] = '';
+      return acc;
+   }, {} as Record<string, any>);
+
+   const form = useForm(initialData);
+   const { data, post, processing, reset } = form;
+
+   const isFormAvailable = fields && fields.length > 0;
+   const letterName = letterType?.name || 'Surat KETERANGAN';
 
    const breadcrumbs: BreadcrumbItem[] = [
       {
@@ -41,25 +42,26 @@ export default function SubmissionLetter() {
          href: '/client/dashboard',
       },
       {
-         title: letterType,
+         title: letterName,
          href: url,
       },
    ];
 
-   const handleSubmit = (data: DomisiliFormData) => {
+   const handleSubmit = (e?: React.FormEvent) => {
+      if (e) e.preventDefault();
       console.log('Submit:', data);
       // TODO: kirim data ke backend via Inertia
    };
 
-   const handleFormChange = (data: DomisiliFormData) => {
-      const hasContent = Object.values(data).some(value => value.trim() !== '');
-      setIsDirty(hasContent);
-   };
+   const isDirty = Object.values(data).some((value: any) =>
+      typeof value === 'string' ? value.trim() !== '' : !!value
+   );
 
-   const resetForm = () => {
+   const handleReset = () => {
+      reset();
       setFormKey((prev) => prev + 1);
-      setIsDirty(false);
       setShowResetAlert(true);
+      setShowResetConfirm(false);
    };
 
    useEffect(() => {
@@ -71,11 +73,11 @@ export default function SubmissionLetter() {
 
    return (
       <FeatureLayout
-         title={letterType}
+         title={letterName}
          breadcrumbs={breadcrumbs}
          header={
             <h1 className="text-3xl font-bold tracking-tight text-neutral-800 dark:text-neutral-100">
-               {letterType}
+               {letterName}
             </h1>
          }>
          <div className="space-y-8">
@@ -91,48 +93,80 @@ export default function SubmissionLetter() {
                )}
 
                <Heading
-                  title={isFormAvailable ? 'Formulir Pengajuan' : letterType}
+                  title={isFormAvailable ? 'Formulir Pengajuan' : letterName}
                   description={
                      isFormAvailable
                         ? 'Isi formulir di bawah ini dengan informasi yang benar dan valid.'
                         : 'Formulir untuk jenis surat ini belum tersedia.'
                   }
-                  action={
-                     isFormAvailable && (
-                        <Button
-                           variant="outline"
-                           size="sm"
-                           onClick={resetForm}
-                           disabled={!isDirty}
-                           className="text-neutral-500 cursor-pointer hover:text-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
-                           <RotateCcw className="size-4" />
-                           Reset Formulir
-                        </Button>
-                     )
-                  }
                />
             </div>
 
             {isFormAvailable ? (
-               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-                  <div className="lg:col-span-8">
-                     <div className="rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 px-6 py-5">
-                        <FormDomisili
-                           key={formKey}
-                           onSubmit={handleSubmit}
-                           onChange={handleFormChange}
-                        />
-                     </div>
+               <div className="flex flex-col gap-8">
+                  <LetterInfo
+                     description={letterType.description}
+                     processingTime={letterType.processing_time}
+                     validityPeriod={letterType.validity_period}
+                     isActive={!!letterType.is_active}
+                     className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 space-y-0"
+                  />
+
+                  <div className="rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 px-6 py-5">
+                     <DynamicForm
+                        key={formKey}
+                        fields={fields}
+                        onSubmit={handleSubmit}
+                        showSubmitButton={false}
+                        externalForm={form}
+                     />
                   </div>
-                  <div className="lg:col-span-4">
-                     <div className="sticky top-6">
-                        {letterInfo && <LetterInfo {...letterInfo} />}
-                     </div>
-                  </div>
+
+                  <ActionBar
+                     message={
+                        <div className="flex items-center gap-2">
+                           <Info className="size-4 text-emerald-500" />
+                           <span className="font-medium">Pastikan semua data sudah terisi dengan benar.</span>
+                        </div>
+                     }
+                  >
+                     <Button
+                        variant={!isDirty || processing ? "outline" : "secondary"}
+                        size="sm"
+                        onClick={() => setShowResetConfirm(true)}
+                        disabled={!isDirty || processing}
+                        className="cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed h-10 px-4">
+                        <RotateCcw className="size-4" />
+                        Reset Formulir
+                     </Button>
+                     <Button
+                        variant="emerald"
+                        size="sm"
+                        onClick={() => handleSubmit()}
+                        disabled={processing}
+                        className="cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed h-10 px-6 font-bold">
+                        {processing ? (
+                           <Loader2 className="size-4 animate-spin" />
+                        ) : (
+                           <Send className="size-4 text-white/80" />
+                        )}
+                        Ajukan Sekarang
+                     </Button>
+                  </ActionBar>
                </div>
             ) : (
-               <FormPlaceholder letterType={letterType} />
+               <FormPlaceholder letterType={letterName} />
             )}
+
+            <ConfirmModal
+               isOpen={showResetConfirm}
+               onClose={() => setShowResetConfirm(false)}
+               onConfirm={handleReset}
+               variant="destructive"
+               title="Reset Formulir?"
+               description="Semua data yang telah Anda isi akan dihapus secara permanen. Tindakan ini tidak dapat dibatalkan."
+               confirmText="Ya, Reset"
+            />
          </div>
       </FeatureLayout>
    );

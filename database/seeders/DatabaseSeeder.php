@@ -20,5 +20,10 @@ class DatabaseSeeder extends Seeder
          'password' => bcrypt('password'), // Password eksplisit
          'role' => 'admin',
       ]);
+
+      $this->call([
+         LetterTypeSeeder::class,
+         FormFieldSeeder::class,
+      ]);
    }
 }

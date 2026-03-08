@@ -95,4 +95,31 @@ class LetterTypeController extends Controller
 
       return redirect()->route('admin.dashboard')->with('success', 'Surat keterangan berhasil dihapus.');
    }
+
+   /**
+    * Display the submission form for a specific letter type for clients.
+    */
+   public function submissionForm(Request $request)
+   {
+      $type = $request->query('type');
+      $id = $request->query('id');
+
+      if ($id) {
+         $letterType = LetterType::with('fields')->findOrFail($id);
+      } else {
+         // Fallback to searching by slugified name if ID is not provided
+         $letterType = LetterType::with('fields')->get()->first(function ($item) use ($type) {
+            return \Illuminate\Support\Str::slug($item->name) === $type;
+         });
+
+         if (!$letterType) {
+            abort(404);
+         }
+      }
+
+      return Inertia::render('client/submission-letter', [
+         'letterType' => $letterType,
+         'fields' => $letterType->fields
+      ]);
+   }
 }

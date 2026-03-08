@@ -52,7 +52,7 @@ export function CertificateCard({ userRole, id, name, description, category, pre
    const createForm = (e: React.MouseEvent) => {
       e.preventDefault();
       e.stopPropagation();
-      router.get(`/admin/manage-forms?id=${id}&name=${slugify(name)}`);
+      router.get(`/admin/manage-forms?id=${id}&type=${slugify(name)}`);
    };
 
    const CardInner = (
@@ -99,8 +99,8 @@ export function CertificateCard({ userRole, id, name, description, category, pre
    );
 
    const href = isAdmin
-      ? `/admin/manage-forms?id=${id}&name=${encodeURIComponent(name)}`
-      : `/client/submission-letter?type=${slugify(name)}`;
+      ? `/admin/edit-letter?id=${id}&type=${slugify(name)}`
+      : `/client/submission-letter?id=${id}&type=${slugify(name)}`;
 
    return (
       <Link href={href}>

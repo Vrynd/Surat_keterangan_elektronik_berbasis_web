@@ -73,7 +73,6 @@ export function LetterTypeForm({ data, setData, errors, onNameChange, onCategory
             </div>
          </div>
 
-         {/* Card: Klasifikasi & Waktu */}
          <div className="rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 overflow-hidden">
             <div className="flex items-center gap-3 px-6 py-4 border-b border-neutral-100 dark:border-neutral-800/80 bg-neutral-50/50 dark:bg-neutral-900/30">
                <div className="flex items-center justify-center size-8 rounded-lg bg-violet-100 dark:bg-violet-900/30">
@@ -190,7 +189,6 @@ export function LetterTypeForm({ data, setData, errors, onNameChange, onCategory
             </div>
          </div>
 
-         {/* Card: Deskripsi */}
          <div className="rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 overflow-hidden">
             <div className="flex items-center gap-3 px-6 py-4 border-b border-neutral-100 dark:border-neutral-800/80 bg-neutral-50/50 dark:bg-neutral-900/30">
                <div className="flex items-center justify-center size-8 rounded-lg bg-emerald-100 dark:bg-emerald-900/30">

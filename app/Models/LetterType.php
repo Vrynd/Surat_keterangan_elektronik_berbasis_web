@@ -15,4 +15,9 @@ class LetterType extends Model
       'validity_period',
       'is_active',
    ];
+
+   public function fields()
+   {
+      return $this->hasMany(FormField::class)->orderBy('order_position');
+   }
 }

@@ -3,16 +3,16 @@ import { cva, type VariantProps } from "class-variance-authority";
 import React from "react";
 
 const actionBarVariants = cva(
-   "rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white/95 dark:bg-neutral-950/95 backdrop-blur-md shadow-lg shadow-neutral-900/5 dark:shadow-neutral-900/30 px-6 py-4",
+   "rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 px-6 py-4 shadow-sm",
    {
       variants: {
          position: {
-            sticky: "sticky bottom-4 z-10",
+            sticky: "sticky bottom-4 z-10 shadow-lg shadow-neutral-900/5 dark:shadow-neutral-900/30 backdrop-blur-md bg-white/95 dark:bg-neutral-950/95",
             static: "relative",
          },
       },
       defaultVariants: {
-         position: "sticky",
+         position: "static",
       },
    }
 );

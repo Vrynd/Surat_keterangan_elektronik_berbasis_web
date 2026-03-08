@@ -165,6 +165,7 @@ export default function AddLetter({ lastAddedDate }: { lastAddedDate: string | n
                onCategoryChange={changeCategory}
             />
             <ActionBar
+               position="sticky"
                message={
                   isFormComplete ? (
                      <span className="text-emerald-600 dark:text-emerald-400 font-medium">✓ Semua field telah terisi</span>

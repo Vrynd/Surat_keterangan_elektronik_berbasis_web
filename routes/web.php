@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Fortify\Features;
 
 use App\Http\Controllers\LetterTypeController;
+use App\Http\Controllers\Admin\FormFieldController;
 
 Route::inertia('/', 'welcome', [
    'canRegister' => Features::enabled(Features::registration()),
@@ -23,7 +24,7 @@ Route::get('dashboard', function () {
 
 Route::middleware(['auth', 'verified', 'role:user'])->prefix('client')->group(function () {
    Route::get('dashboard', [LetterTypeController::class, 'index'])->name('dashboard');
-   Route::inertia('submission-letter', 'client/submission-letter')->name('submission.letter');
+   Route::get('submission-letter', [LetterTypeController::class, 'submissionForm'])->name('submission.letter');
    Route::inertia('my-letters', 'client/my-letter')->name('my-letters');
    Route::inertia('reviews', 'client/review')->name('reviews');
 });
@@ -37,7 +38,10 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(fu
    Route::put('letter-types/{letterType}', [LetterTypeController::class, 'update'])->name('admin.letter-types.update');
    Route::delete('letter-types/{letterType}', [LetterTypeController::class, 'destroy'])->name('admin.letter-types.destroy');
 
-   Route::inertia('manage-forms', 'admin/manage-forms')->name('admin.manage.forms');
+   Route::get('manage-forms', [FormFieldController::class, 'index'])->name('admin.manage.forms');
+   Route::post('manage-forms/{letterType}/fields', [FormFieldController::class, 'store'])->name('admin.manage.forms.store');
+   Route::put('manage-forms/fields/{formField}', [FormFieldController::class, 'update'])->name('admin.manage.forms.update');
+   Route::delete('manage-forms/fields/{formField}', [FormFieldController::class, 'destroy'])->name('admin.manage.forms.destroy');
 });
 
 
