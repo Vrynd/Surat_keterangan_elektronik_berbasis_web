@@ -47,7 +47,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
       },
       {
          title: 'Pengajuan Surat',
-         href: '#',
+         href: '/admin/letter-requests',
          icon: ClipboardList,
       },
       {

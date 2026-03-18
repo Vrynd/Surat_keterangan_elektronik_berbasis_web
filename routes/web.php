@@ -6,6 +6,7 @@ use Laravel\Fortify\Features;
 
 use App\Http\Controllers\LetterTypeController;
 use App\Http\Controllers\FormFieldController;
+use App\Http\Controllers\LetterRequestController;
 
 
 Route::inertia('/', 'welcome', [
@@ -50,6 +51,11 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(fu
       Route::post('manage-forms/{id}/fields', 'store')->name('admin.manage.forms.store');
       Route::put('manage-forms/fields/{formField}', 'update')->name('admin.manage.forms.update');
       Route::delete('manage-forms/fields/{formField}', 'destroy')->name('admin.manage.forms.destroy');
+   });
+
+   Route::controller(LetterRequestController::class)->group(function () {
+      Route::get('letter-requests', 'index')->name('admin.letter-requests');
+      Route::patch('letter-requests/{letterRequest}/status', 'updateStatus')->name('admin.letter-requests.update-status');
    });
 });
 
